@@ -3,256 +3,456 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Daniel Taylor — BI &amp; Analytics Engineer in Lagos, Nigeria. Data pipelines, data quality, modelling and business intelligence.">
+<meta name="description" content="Daniel Taylor — BI &amp; Analytics Engineer in Lagos, Nigeria. PySpark and SQL pipelines, data quality, Microsoft Fabric, Databricks and Power BI.">
 <meta name="author" content="Daniel Taylor">
+<meta name="theme-color" content="#ffffff">
 <meta property="og:title" content="Daniel Taylor — BI &amp; Analytics Engineer">
-<meta property="og:description" content="Turning messy operational data into trustworthy reporting: PySpark, SQL, Databricks, Power BI.">
+<meta property="og:description" content="Data pipelines and reporting leaders can trust: PySpark, SQL, Databricks, Microsoft Fabric, Power BI.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://taylor-daniel.github.io/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230E6B58'/%3E%3Cg fill='%23F1F4F1'%3E%3Crect x='7' y='16' width='4' height='9' rx='1'/%3E%3Crect x='14' y='11' width='4' height='14' rx='1'/%3E%3Crect x='21' y='7' width='4' height='18' rx='1'/%3E%3C/g%3E%3C/svg%3E">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/274876645?s=400&v=4">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B5D7A'/%3E%3Cg fill='%23fff'%3E%3Crect x='7' y='17' width='4' height='8' rx='1'/%3E%3Crect x='14' y='12' width='4' height='13' rx='1'/%3E%3Crect x='21' y='7' width='4' height='18' rx='1'/%3E%3C/g%3E%3C/svg%3E">
 <title>Daniel Taylor Portfolio</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;800&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
-    --paper:#F1F4F1;
-    --surface:#FFFFFF;
-    --ink:#13241F;
-    --muted:#596B64;
-    --line:#D4DCD6;
-    --accent:#0E6B58;
-    --accent-soft:#E2EFEA;
-    --signal:#A9532B;
-    --signal-soft:#F3E7DF;
-    --display:"Chivo","Helvetica Neue",Arial,sans-serif;
-    --body:"Source Serif 4",Georgia,"Times New Roman",serif;
-    --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
-  }
-  @media (prefers-color-scheme:dark){
-    :root:not([data-theme="light"]){
-      --paper:#0D1512;--surface:#141F1B;--ink:#E7EEE9;--muted:#93A79F;--line:#24332D;
-      --accent:#5BC4A6;--accent-soft:#16302A;--signal:#DE9269;--signal-soft:#31221A;
-    }
-  }
-  :root[data-theme="dark"]{
-    --paper:#0D1512;--surface:#141F1B;--ink:#E7EEE9;--muted:#93A79F;--line:#24332D;
-    --accent:#5BC4A6;--accent-soft:#16302A;--signal:#DE9269;--signal-soft:#31221A;
+    color-scheme: light;
+    --bg:#FFFFFF;
+    --bg-alt:#F6F8FA;
+    --ink:#0B1220;
+    --body:#38424F;
+    --muted:#646F7D;
+    --line:#E3E8EE;
+    --line-strong:#CDD6E0;
+    --accent:#0B5D7A;
+    --accent-deep:#083F53;
+    --accent-wash:#EAF3F7;
+    --ok:#12694E;
+    --ok-wash:#E7F4EF;
+    --wip:#8A5300;
+    --wip-wash:#FBF1E0;
+    --shadow:0 1px 2px rgba(11,18,32,.05), 0 8px 24px -12px rgba(11,18,32,.18);
+    --shadow-lift:0 2px 4px rgba(11,18,32,.06), 0 18px 40px -18px rgba(11,18,32,.28);
+    --display:"Sora","Segoe UI",Helvetica,Arial,sans-serif;
+    --sans:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+    --r:14px;
   }
   *{box-sizing:border-box}
-  body{
-    background:var(--paper);color:var(--ink);font-family:var(--body);
-    font-size:17px;line-height:1.65;margin:0;-webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:0}
-  a{color:inherit}
-  .lbl{
-    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--muted);font-weight:500;
-  }
-  h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
-  /* ---------- shell ---------- */
-  .shell{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
-  @media(min-width:940px){
-    .shell{grid-template-columns:260px minmax(0,1fr);gap:56px;align-items:start}
-    .rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 40px);padding-block:56px}
-  }
-  /* ---------- rail ---------- */
-  .rail{padding-block:40px 8px}
-  .rail h1{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
-  .role{font-family:var(--display);font-weight:600;font-size:14px;color:var(--accent);margin-top:8px;letter-spacing:.01em}
-  .where{margin-top:14px;display:flex;flex-direction:column;gap:5px}
-  .where a{text-decoration:none;border-bottom:1px solid var(--line);width:fit-content;padding-bottom:1px}
-  .where a:hover{border-color:var(--accent);color:var(--accent)}
-  nav{margin-top:26px;display:none;flex-direction:column;gap:9px}
-  @media(min-width:940px){nav{display:flex}}
-  nav a{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-decoration:none;color:var(--muted)}
-  nav a:hover{color:var(--accent)}
-  nav a span{color:var(--line);margin-right:8px}
-  /* ---------- main ---------- */
-  main{padding-block:40px 64px;display:flex;flex-direction:column;gap:64px;min-width:0}
-  @media(min-width:940px){main{padding-block:56px 96px}}
-  section{scroll-margin-top:24px}
-  .lede{font-size:21px;line-height:1.55;max-width:34em;margin:14px 0 0}
-  .lede b{font-weight:600;color:var(--accent)}
-  h2{font-size:13px;font-family:var(--mono);font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
-     padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:24px}
-  h3{font-size:22px;font-weight:600;letter-spacing:-.01em}
-  p{margin:0 0 14px;max-width:36em}
-  p:last-child{margin-bottom:0}
-  /* ---------- pipeline ---------- */
-  .pipe{display:flex;flex-wrap:wrap;gap:8px}
-  .stage{
-    flex:1 1 150px;background:var(--surface);border:1px solid var(--line);border-radius:2px;
-    padding:12px 13px 14px;position:relative;min-width:0;
-  }
-  .stage .n{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.1em}
-  .stage .t{font-family:var(--display);font-weight:600;font-size:15px;margin-top:5px}
-  .stage .d{font-size:14px;color:var(--muted);line-height:1.45;margin-top:4px}
-  .stage:not(:last-child)::after{
-    content:"";position:absolute;right:-8px;top:50%;width:8px;height:1px;background:var(--line);
-  }
-  @media(max-width:600px){.stage:not(:last-child)::after{display:none}}
-  /* ---------- case studies ---------- */
-  .cases{display:flex;flex-direction:column;gap:20px}
-  .case{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:2px;padding:22px}
-  .case-top{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between}
-  .chip{
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
-    background:var(--signal-soft);color:var(--signal);padding:4px 8px;border-radius:999px;white-space:nowrap;
-  }
-  .case h3{max-width:24em}
-  .case p{font-size:16px;margin-top:10px}
-  dl.spec{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 18px;margin:16px 0 0;font-size:15px}
-  dl.spec dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:4px}
-  dl.spec dd{margin:0}
-  .tags{display:flex;flex-wrap:wrap;gap:6px}
-  .tag{font-family:var(--mono);font-size:11.5px;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:2px}
-  /* ---------- toolkit ---------- */
-  .kit{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
-  .kit div{border-top:1px solid var(--line);padding-top:12px}
-  .kit h4{font-family:var(--display);font-size:15px;font-weight:600;margin:6px 0 6px}
-  .kit p{font-size:15px;color:var(--muted);margin:0}
-  /* ---------- practice ---------- */
-  .practice{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin:0}
-  .practice div{display:flex;gap:11px;align-items:flex-start}
-  .practice .k{font-family:var(--mono);font-size:11px;color:var(--accent);padding-top:5px}
-  .practice .v{font-size:15.5px;line-height:1.5}
-  /* ---------- footer ---------- */
-  footer{border-top:1px solid var(--line);padding-block:20px 8px;font-size:14.5px;color:var(--muted)}
-  footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--line)}
-  footer a:hover{border-color:var(--accent)}
-  .note{background:var(--accent-soft);border-radius:2px;padding:14px 16px;font-size:15px;color:var(--ink);max-width:40em}
-  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  body{background:var(--bg);color:var(--body);font-family:var(--sans);font-size:16.5px;line-height:1.68;margin:0;-webkit-font-smoothing:antialiased}
+  .wrap{width:100%;max-width:1080px;margin:0 auto;padding-inline:20px}
+  h1,h2,h3,h4{font-family:var(--display);color:var(--ink);margin:0;text-wrap:balance;letter-spacing:-.018em}
+  p{margin:0 0 14px}
+  a{color:var(--accent);text-decoration:none}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+
+  /* ============ header ============ */
+  .topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,255,255,.88);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topbar .inner{display:flex;align-items:center;gap:18px;height:60px}
+  .brand{font-family:var(--display);font-weight:600;color:var(--ink);font-size:15.5px;margin-right:auto;white-space:nowrap}
+  .brand span{color:var(--muted);font-weight:500}
+  .topnav{display:none;gap:22px}
+  @media(min-width:800px){.topnav{display:flex}}
+  .topnav a{font-size:14px;color:var(--body);position:relative;padding-block:4px}
+  .topnav a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1.5px;background:var(--accent);
+    transition:right .28s cubic-bezier(.2,.7,.3,1)}
+  .topnav a:hover::after,.topnav a[aria-current="true"]::after{right:0}
+  .topnav a[aria-current="true"]{color:var(--accent)}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:500;
+    padding:9px 15px;border-radius:10px;border:1px solid var(--line-strong);background:#fff;color:var(--ink);
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease;cursor:pointer}
+  .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow);border-color:var(--accent);color:var(--accent)}
+  .btn:active{transform:translateY(0)}
+  .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent-deep);border-color:var(--accent-deep);color:#fff}
+
+  /* ============ hero ============ */
+  .hero{padding-block:52px 44px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(760px 300px at 82% -8%, rgba(11,93,122,.09), transparent 70%)}
+  .hero-grid{display:grid;gap:26px;align-items:start;position:relative}
+  @media(min-width:760px){.hero-grid{grid-template-columns:132px minmax(0,1fr);gap:34px}}
+  .avatar{position:relative;width:112px;height:112px;border-radius:50%;flex:none}
+  @media(min-width:760px){.avatar{width:132px;height:132px}}
+  .avatar img,.avatar .mono{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;
+    border:1px solid var(--line);box-shadow:var(--shadow)}
+  .avatar .mono{display:none;align-items:center;justify-content:center;background:var(--accent-wash);
+    color:var(--accent-deep);font-family:var(--display);font-weight:700;font-size:38px;letter-spacing:.02em}
+  .avatar.fallback img{display:none}
+  .avatar.fallback .mono{display:flex}
+  .avatar::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid var(--line);
+    animation:ring 900ms cubic-bezier(.2,.7,.3,1) both}
+  @keyframes ring{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+  h1{font-size:clamp(30px,5.2vw,42px);line-height:1.12;font-weight:700}
+  .title{font-family:var(--display);font-weight:600;color:var(--accent);font-size:16px;margin-top:8px}
+  .bio{margin-top:14px;max-width:46ch;font-size:17px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .pill{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-family:var(--mono);
+    color:var(--muted);background:var(--bg-alt);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+
+  /* ============ sections ============ */
+  section{padding-block:56px;border-bottom:1px solid var(--line)}
+  section.tint{background:var(--bg-alt)}
+  .sec-head{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline;justify-content:space-between;margin-bottom:26px}
+  .sec-head h2{font-size:26px;font-weight:600}
+  .sec-head p{margin:0;color:var(--muted);font-size:15px;max-width:44ch}
+
+  /* ============ case cards ============ */
+  .cards{display:flex;flex-direction:column;gap:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px;
+    transition:transform .2s cubic-bezier(.2,.7,.3,1),box-shadow .2s ease,border-color .2s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift);border-color:var(--line-strong)}
+  .card-head{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;justify-content:space-between}
+  .card h3{font-size:20.5px;font-weight:600;max-width:26ch}
+  .badge{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+    padding:5px 10px;border-radius:999px;white-space:nowrap}
+  .badge.ok{background:var(--ok-wash);color:var(--ok)}
+  .badge.wip{background:var(--wip-wash);color:var(--wip)}
+  .card .sub{margin-top:10px;max-width:62ch}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .tag{font-family:var(--mono);font-size:12px;color:var(--accent-deep);background:var(--accent-wash);
+    border-radius:7px;padding:4px 9px;transition:transform .18s ease}
+  .card:hover .tag{transform:translateY(-1px)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px;margin-top:20px}
+  .kpi{border:1px solid var(--line);border-radius:10px;padding:12px 13px;background:var(--bg-alt)}
+  .kpi .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .kpi .v{font-family:var(--display);font-weight:600;color:var(--ink);font-size:15px;margin-top:4px;line-height:1.35}
+  .toggle{margin-top:20px;display:inline-flex;align-items:center;gap:9px;background:none;border:0;padding:0;
+    font-family:var(--sans);font-size:14.5px;font-weight:500;color:var(--accent);cursor:pointer}
+  .toggle .chev{display:inline-block;transition:transform .25s ease;font-size:12px}
+  .toggle[aria-expanded="true"] .chev{transform:rotate(90deg)}
+  .detail{margin-top:18px;border-top:1px solid var(--line);padding-top:18px;animation:fade .3s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .detail h4{font-size:13px;font-family:var(--mono);font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);margin:20px 0 8px}
+  .detail h4:first-child{margin-top:0}
+  .detail ul{margin:0;padding-left:18px}
+  .detail li{margin-bottom:6px}
+  .detail li::marker{color:var(--accent)}
+  .split{display:grid;gap:22px}
+  @media(min-width:720px){.split{grid-template-columns:1fr 1fr;gap:30px}}
+
+  /* ============ pipeline ============ */
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+  .node{flex:1 1 160px;min-width:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;
+    position:relative;transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease}
+  .node:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow)}
+  .node .n{font-family:var(--mono);font-size:10.5px;color:var(--accent);letter-spacing:.1em}
+  .node .t{font-family:var(--display);font-weight:600;color:var(--ink);font-size:15px;margin-top:5px}
+  .node .d{font-size:13.5px;color:var(--muted);line-height:1.5;margin-top:3px}
+  .node:not(:last-child)::after{content:"";position:absolute;right:-10px;top:50%;width:10px;height:1px;background:var(--line-strong)}
+  @media(max-width:620px){.node:not(:last-child)::after{display:none}}
+  .method{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2px;margin-top:26px;
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line)}
+  .step{background:#fff;padding:14px 15px;transition:background .2s ease}
+  .step:hover{background:var(--accent-wash)}
+  .step .s{font-family:var(--mono);font-size:10.5px;color:var(--accent)}
+  .step .l{font-family:var(--display);font-weight:600;color:var(--ink);margin-top:3px;font-size:15px}
+  .step .x{font-size:13px;color:var(--muted);line-height:1.45}
+
+  /* ============ toolkit ============ */
+  .kit{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(238px,1fr))}
+  .kit article{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;
+    transition:transform .2s cubic-bezier(.2,.7,.3,1),box-shadow .2s ease,border-color .2s ease}
+  .kit article:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--line-strong)}
+  .kit h4{font-size:16px;font-weight:600;margin:8px 0 6px}
+  .kit p{font-size:14.5px;color:var(--muted);margin:0}
+
+  /* ============ practice ============ */
+  .notes{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .note{display:flex;gap:12px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:10px;padding:15px 16px;font-size:15px;transition:border-left-width .2s ease,transform .2s ease}
+  .note:hover{transform:translateX(2px)}
+  .confid{margin-top:22px;background:var(--accent-wash);border:1px solid #D5E6EE;border-radius:12px;padding:16px 18px;
+    font-size:15px;color:var(--ink);max-width:70ch}
+  .confid strong{font-family:var(--display)}
+
+  /* ============ footer ============ */
+  footer{padding-block:34px 44px}
+  .foot{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+  .foot p{margin:0;color:var(--muted);font-size:14.5px;max-width:52ch}
+  .foot-links{display:flex;gap:10px;flex-wrap:wrap}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
-<style>
-  html{-webkit-text-size-adjust:100%}
-  body{margin:0}
-  img{max-width:100%}
-  [hidden]{display:none!important}
-</style>
+<style>html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}body{margin:0}img{max-width:100%}[hidden]{display:none!important}@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}</style>
 </head>
 <body>
 
 
-<div class="wrap">
-  <div class="shell">
-    <header class="rail">
-      <p class="lbl">Portfolio</p>
-      <h1>Daniel&nbsp;Taylor</h1>
-      <p class="role">BI &amp; Analytics Engineer</p>
-      <div class="where">
-        <span class="lbl">Lagos, Nigeria</span>
-        <a href="https://github.com/taylor-daniel">github.com/taylor-daniel</a>
-        <a href="https://www.linkedin.com/in/taylordaniel2">linkedin.com/in/taylordaniel2</a>
-      </div>
-      <nav>
-        <a href="#work"><span>01</span>Case studies</a>
-        <a href="#method"><span>02</span>How I work</a>
-        <a href="#toolkit"><span>03</span>Toolkit</a>
-        <a href="#practice"><span>04</span>Practice</a>
-      </nav>
-    </header>
-
-    <main>
-      <section>
-        <p class="lede">I take messy operational data, make it trustworthy at scale with <b>PySpark and SQL</b>, model it, and turn it into reporting that changes decisions. I've applied this to <b>digital sales and revenue analytics</b> and to <b>workforce analytics</b>.</p>
-        <p style="margin-top:18px;color:var(--muted);max-width:34em">What matters to me is the part after the dashboard: the decision it enables, and whether the numbers behind it reconcile with the system the business already trusts.</p>
-      </section>
-
-      <section id="work">
-        <h2>Case studies</h2>
-        <div class="cases">
-
-          <article class="case">
-            <div class="case-top">
-              <h3>Digital Sales &amp; Revenue Analytics</h3>
-              <span class="chip">Write-up in progress</span>
-            </div>
-            <p>An insurance business selling through digital platforms needed a reliable view of how those channels were performing. I built the transformation and data-quality layer in Databricks with PySpark, turning raw quote, policy, product and transaction data into analysis-ready datasets, then validated the output against the transaction system.</p>
-            <dl class="spec">
-              <dt>Problem</dt><dd>Limited visibility into product traction, policy sales and premium generated through digital platforms.</dd>
-              <dt>Approach</dt><dd>Standardised inconsistent text fields so keys and categories matched, joined the datasets, filtered and classified records, aggregated to reporting level, and ran data-quality checks.</dd>
-              <dt>Validation</dt><dd>Transformed outputs reconciled against transaction-system figures.</dd>
-              <dt>Stack</dt><dd class="tags"><span class="tag">Databricks</span><span class="tag">PySpark</span><span class="tag">Data quality</span><span class="tag">Reconciliation</span></dd>
-            </dl>
-          </article>
-
-          <article class="case">
-            <div class="case-top">
-              <h3>HR &amp; Workforce Analytics Suite</h3>
-              <span class="chip">Write-up in progress</span>
-            </div>
-            <p>Automated HR reporting and interactive dashboards covering the employee lifecycle, built on people data that had to be modelled and defined before it could be measured.</p>
-            <dl class="spec">
-              <dt>Coverage</dt><dd>Headcount and workforce structure, attrition, employee experience, learning &amp; development, performance management, talent management, strategic HR KPIs and workforce planning.</dd>
-              <dt>Focus</dt><dd>KPI definition, data modelling, automated refresh in place of manual report assembly, and dashboards leaders can explore themselves.</dd>
-              <dt>Skills</dt><dd class="tags"><span class="tag">KPI design</span><span class="tag">Data modelling</span><span class="tag">Automated reporting</span><span class="tag">Dashboarding</span></dd>
-            </dl>
-          </article>
-
-        </div>
-        <p style="margin-top:18px;font-size:15px;color:var(--muted)">Full write-ups live in <a href="https://github.com/taylor-daniel/data-analytics-portfolio" style="color:var(--accent)">data-analytics-portfolio</a>, where each project is documented as problem, data, approach, validation and business impact.</p>
-      </section>
-
-      <section id="method">
-        <h2>How I work</h2>
-        <div class="pipe">
-          <div class="stage"><div class="n">01</div><div class="t">Problem</div><div class="d">What the business can't see or decide</div></div>
-          <div class="stage"><div class="n">02</div><div class="t">Data</div><div class="d">Sources, grain, refresh, quality</div></div>
-          <div class="stage"><div class="n">03</div><div class="t">Analysis</div><div class="d">Clean, join, classify, aggregate</div></div>
-          <div class="stage"><div class="n">04</div><div class="t">Solution</div><div class="d">Models, pipelines, reporting</div></div>
-          <div class="stage"><div class="n">05</div><div class="t">Insight</div><div class="d">Findings that hold up to scrutiny</div></div>
-          <div class="stage"><div class="n">06</div><div class="t">Impact</div><div class="d">The decision that changed</div></div>
-        </div>
-        <p style="margin-top:20px">Every project is documented the same way, including the parts that are less flattering: the data problems found along the way, how outputs were validated, what I did versus what other teams did, and what I would build differently next time.</p>
-      </section>
-
-      <section id="toolkit">
-        <h2>Toolkit</h2>
-        <div class="kit">
-          <div>
-            <p class="lbl">Data engineering &amp; ETL/ELT</p>
-            <h4>Python · PySpark · SQL</h4>
-            <p>Databricks, Microsoft Fabric. Extraction, transformation at scale, pipeline logic.</p>
-          </div>
-          <div>
-            <p class="lbl">Modelling &amp; BI</p>
-            <h4>Power BI · DAX · Excel</h4>
-            <p>Data modelling, measure design, dashboards built around the decisions people make.</p>
-          </div>
-          <div>
-            <p class="lbl">Data quality</p>
-            <h4>Profiling · Cleaning · Reconciliation</h4>
-            <p>Standardisation, quality checks in the pipeline, output reconciled against source systems.</p>
-          </div>
-          <div>
-            <p class="lbl">Domains</p>
-            <h4>Revenue · Digital · Workforce</h4>
-            <p>Digital channel and revenue analytics, HR and workforce analytics, KPI design.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="practice">
-        <h2>Practice</h2>
-        <div class="practice">
-          <div><span class="k">→</span><span class="v">Reconcile before you publish. A number the business can't tie back to a system it trusts doesn't get used.</span></div>
-          <div><span class="k">→</span><span class="v">Standardise keys before joining. Most "wrong" numbers start as a trailing space.</span></div>
-          <div><span class="k">→</span><span class="v">Build quality checks into the pipeline, not into a follow-up email.</span></div>
-          <div><span class="k">→</span><span class="v">Separate what I did from what the team did. Credit is part of accuracy.</span></div>
-        </div>
-        <div class="note" style="margin-top:22px">
-          <strong style="font-family:var(--display);font-weight:600">On confidentiality.</strong> All professional work shown here is anonymised. No company, customer or employee data, no policy records, no internal systems or proprietary code. Where figures would identify the business, they are described rather than quoted.
-        </div>
-      </section>
-
-      <footer>
-        <p style="max-width:none">Currently documenting professional projects as anonymised, impact-focused case studies, and growing toward senior analytics engineering roles. ·
-        <a href="https://github.com/taylor-daniel">GitHub</a> ·
-        <a href="https://www.linkedin.com/in/taylordaniel2">LinkedIn</a></p>
-      </footer>
-    </main>
+<div class="topbar">
+  <div class="wrap inner">
+    <div class="brand">Daniel Taylor <span>· BI &amp; Analytics Engineer</span></div>
+    <nav class="topnav" id="topnav">
+      <a href="#work">Case studies</a>
+      <a href="#how">How I work</a>
+      <a href="#toolkit">Toolkit</a>
+      <a href="#practice">Practice</a>
+    </nav>
+    <a class="btn" href="https://github.com/taylor-daniel">GitHub</a>
   </div>
 </div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="avatar" id="avatar">
+      <img src="https://avatars.githubusercontent.com/u/274876645?s=400&amp;v=4" alt="Daniel Taylor" width="132" height="132" id="avatar-img">
+      <div class="mono" aria-hidden="true">DT</div>
+    </div>
+    <div>
+      <p class="eyebrow">Lagos, Nigeria · Portfolio</p>
+      <h1>I build data pipelines and reporting that leaders can actually trust.</h1>
+      <p class="title">BI &amp; Analytics Engineer</p>
+      <p class="bio">Python · PySpark · SQL · Power BI · Microsoft Fabric · Databricks. Turning raw data into decisions across revenue, digital and workforce.</p>
+      <div class="meta">
+        <span class="pill"><span class="dot"></span>Open to BI &amp; analytics engineering roles</span>
+        <span class="pill">Insurance domain experience</span>
+      </div>
+      <div class="cta">
+        <a class="btn btn-primary" href="#work">See case studies</a>
+        <a class="btn" href="https://www.linkedin.com/in/taylordaniel2">LinkedIn</a>
+        <a class="btn" href="https://github.com/taylor-daniel/data-analytics-portfolio">Portfolio repo</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Case studies</h2>
+        <p>Professional work, anonymised. Each one documents the problem, the data, the approach, how it was validated, and what changed.</p>
+      </div>
+      <div class="cards">
+
+        <article class="card">
+          <div class="card-head">
+            <h3>Digital Sales &amp; Revenue Analytics</h3>
+            <span class="badge ok">Published</span>
+          </div>
+          <p class="sub">An insurance business selling through digital platforms had no reliable view of how those channels performed, and no pipeline to build one. I traced the data back to the quote, policy, product and transaction systems, built the transformation and data-quality layer in Databricks with PySpark, reconciled the output against the transaction system, and delivered the Power BI reporting on top.</p>
+          <div class="tags">
+            <span class="tag">Databricks</span><span class="tag">PySpark</span><span class="tag">Microsoft Fabric</span>
+            <span class="tag">Delta / Parquet</span><span class="tag">Power BI</span><span class="tag">Data quality</span>
+          </div>
+          <div class="kpis">
+            <div class="kpi"><div class="k">Role</div><div class="v">BI &amp; Analytics Engineer</div></div>
+            <div class="kpi"><div class="k">Sources joined</div><div class="v">Quote · Policy · Product · Transaction</div></div>
+            <div class="kpi"><div class="k">Validation</div><div class="v">Reconciled to the transaction system</div></div>
+            <div class="kpi"><div class="k">Delivered</div><div class="v">Scheduled Power BI report</div></div>
+          </div>
+          <button class="toggle" type="button" aria-expanded="false" aria-controls="d1" data-toggle="d1">
+            <span class="chev" aria-hidden="true">▶</span><span class="lbl-txt">Read the full case study</span>
+          </button>
+          <div class="detail" id="d1" hidden>
+            <div class="split">
+              <div>
+                <h4>Business problem</h4>
+                <ul>
+                  <li>Product traction on digital channels was not easy to see</li>
+                  <li>Policy sales and premium from digital platforms were not readily measurable</li>
+                  <li>No existing pipeline or report to build on</li>
+                  <li>The data sat in separate systems, so nothing could be answered without reliable joins</li>
+                </ul>
+                <h4>Data challenges</h4>
+                <ul>
+                  <li>Leading and trailing spaces and non-standard values breaking joins</li>
+                  <li>Duplicate records and duplicated columns after joining</li>
+                  <li>Identifying a dependable primary key across systems</li>
+                  <li>Closely related product codes pointing at the same product</li>
+                  <li>Transaction date and issue date not aligning</li>
+                </ul>
+              </div>
+              <div>
+                <h4>What I did</h4>
+                <ul>
+                  <li>Profiled structure, types, missing values, duplicates and overall quality first</li>
+                  <li>Trimmed and standardised text fields so keys and categories matched</li>
+                  <li>Joined quote, policy, product and transaction data on validated keys</li>
+                  <li>Filtered out draft policies and duplicated columns</li>
+                  <li>Classified source, channel, product group, type and quote status</li>
+                  <li>Aggregated to weekly, monthly and yearly revenue, policy counts and conversion</li>
+                  <li>Ran null, duplicate, unmatched-key and row-count checks at every stage</li>
+                  <li>Built the Power BI report on the transformed tables</li>
+                </ul>
+                <h4>Validation</h4>
+                <ul>
+                  <li>Total premium reconciled by source against the transaction system</li>
+                  <li>Row counts and premium per product confirmed with the stakeholders who own the figures</li>
+                  <li>Check results displayed at each stage, so a break traces to the step that caused it</li>
+                </ul>
+              </div>
+            </div>
+            <h4>Visibility the business gained</h4>
+            <ul>
+              <li>How each digital channel contributes to revenue, overall and per product</li>
+              <li>Which products and categories are the largest and smallest contributors</li>
+              <li>Quote-to-policy conversion alongside policy volumes</li>
+              <li>Average revenue per policy, overall and by product category</li>
+              <li>Seasonality month to month, and direction year on year</li>
+              <li>When the report last refreshed, so stakeholders know how current the figures are</li>
+            </ul>
+            <h4>Lessons learned</h4>
+            <ul>
+              <li>Standardise keys before any join; most "wrong" numbers start as a trailing space</li>
+              <li>Build quality checks into the pipeline, not into a follow-up email</li>
+              <li>Understand the business logic before transforming, or the work becomes rework</li>
+              <li>Reconciliation against a system the business already trusts is what drives adoption</li>
+            </ul>
+            <p style="margin-top:18px"><a href="https://github.com/taylor-daniel/data-analytics-portfolio/tree/main/case-studies/digital-sales-revenue-analytics">Full write-up on GitHub →</a></p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3>HR &amp; Workforce Analytics Suite</h3>
+            <span class="badge wip">Write-up in progress</span>
+          </div>
+          <p class="sub">Automated HR reporting and interactive dashboards covering the employee lifecycle, built on people data that had to be modelled and defined before it could be measured.</p>
+          <div class="tags">
+            <span class="tag">KPI design</span><span class="tag">Data modelling</span>
+            <span class="tag">Automated reporting</span><span class="tag">Dashboarding</span>
+          </div>
+          <div class="kpis">
+            <div class="kpi"><div class="k">Coverage</div><div class="v">Headcount · Attrition · L&amp;D</div></div>
+            <div class="kpi"><div class="k">Also</div><div class="v">Performance · Talent · Experience</div></div>
+            <div class="kpi"><div class="k">Planning</div><div class="v">Strategic HR KPIs · Workforce planning</div></div>
+            <div class="kpi"><div class="k">Focus</div><div class="v">Automated refresh, self-serve dashboards</div></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="tint">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>How I work</h2>
+        <p>A worked example: the architecture behind the digital revenue pipeline, and the sequence I follow on every project.</p>
+      </div>
+      <div class="flow">
+        <div class="node"><div class="n">01</div><div class="t">Source systems</div><div class="d">Quote, policy, product and transaction data</div></div>
+        <div class="node"><div class="n">02</div><div class="t">ADLS</div><div class="d">Landing zone for raw extracts</div></div>
+        <div class="node"><div class="n">03</div><div class="t">Microsoft Fabric</div><div class="d">Central engineering layer</div></div>
+        <div class="node"><div class="n">04</div><div class="t">Databricks</div><div class="d">PySpark transformation and quality checks</div></div>
+        <div class="node"><div class="n">05</div><div class="t">Delta tables</div><div class="d">Analysis-ready output served from Fabric</div></div>
+        <div class="node"><div class="n">06</div><div class="t">Power BI</div><div class="d">Scheduled refresh, self-serve reporting</div></div>
+      </div>
+      <div class="method">
+        <div class="step"><div class="s">01</div><div class="l">Problem</div><div class="x">What the business can't see or decide</div></div>
+        <div class="step"><div class="s">02</div><div class="l">Data</div><div class="x">Sources, grain, refresh, quality</div></div>
+        <div class="step"><div class="s">03</div><div class="l">Analysis</div><div class="x">Clean, join, classify, aggregate</div></div>
+        <div class="step"><div class="s">04</div><div class="l">Solution</div><div class="x">Models, pipelines, reporting</div></div>
+        <div class="step"><div class="s">05</div><div class="l">Insight</div><div class="x">Findings that hold up to scrutiny</div></div>
+        <div class="step"><div class="s">06</div><div class="l">Impact</div><div class="x">The decision that changed</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="toolkit">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Toolkit</h2>
+        <p>What I use, and what I use it for.</p>
+      </div>
+      <div class="kit">
+        <article>
+          <p class="eyebrow" style="margin:0">Data engineering &amp; ETL/ELT</p>
+          <h4>Python · PySpark · SQL</h4>
+          <p>Databricks and Microsoft Fabric. Extraction, transformation at scale, pipeline logic, Delta and Parquet outputs.</p>
+        </article>
+        <article>
+          <p class="eyebrow" style="margin:0">Modelling &amp; BI</p>
+          <h4>Power BI · DAX · Excel</h4>
+          <p>Data modelling, measure design, and dashboards built around the decisions people actually make.</p>
+        </article>
+        <article>
+          <p class="eyebrow" style="margin:0">Data quality</p>
+          <h4>Profiling · Cleaning · Reconciliation</h4>
+          <p>Standardisation, checks inside the pipeline, and output reconciled against the source system.</p>
+        </article>
+        <article>
+          <p class="eyebrow" style="margin:0">Domains</p>
+          <h4>Revenue · Digital · Workforce</h4>
+          <p>Digital channel and revenue analytics, HR and workforce analytics, and KPI design.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="practice" class="tint">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Practice</h2>
+        <p>Rules I've earned the hard way.</p>
+      </div>
+      <div class="notes">
+        <div class="note">Reconcile before you publish. A number the business can't tie back to a system it trusts doesn't get used.</div>
+        <div class="note">Standardise keys before joining. Most "wrong" numbers start as a trailing space.</div>
+        <div class="note">Build quality checks into the pipeline, not into a follow-up email.</div>
+        <div class="note">Separate what I did from what the team did. Credit is part of accuracy.</div>
+      </div>
+      <div class="confid">
+        <strong>On confidentiality.</strong> All professional work shown here is anonymised. No company, customer or employee data, no policy records, no internal systems or proprietary code. Where figures would identify the business, they are described rather than quoted.
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap foot">
+      <p>Currently documenting professional projects as anonymised, impact-focused case studies, and growing toward senior analytics engineering roles.</p>
+      <div class="foot-links">
+        <a class="btn" href="https://github.com/taylor-daniel">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/taylordaniel2">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+  // Avatar fallback: if the image can't load, show the monogram instead.
+  (function(){
+    var box = document.getElementById('avatar'), img = document.getElementById('avatar-img');
+    if(!box || !img) return;
+    function fail(){ box.classList.add('fallback'); }
+    img.addEventListener('error', fail);
+    if(img.complete && img.naturalWidth === 0) fail();
+  })();
+
+  // Expandable case study detail
+  document.querySelectorAll('[data-toggle]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var panel = document.getElementById(btn.getAttribute('data-toggle'));
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      panel.hidden = open;
+      btn.querySelector('.lbl-txt').textContent = open ? 'Read the full case study' : 'Hide the full case study';
+    });
+  });
+
+  // Nav highlight follows the section in view
+  (function(){
+    var links = Array.prototype.slice.call(document.querySelectorAll('#topnav a'));
+    var map = {};
+    links.forEach(function(a){ var el = document.querySelector(a.getAttribute('href')); if(el) map[el.id] = a; });
+    if(!('IntersectionObserver' in window)) return;
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){ a.removeAttribute('aria-current'); });
+          if(map[e.target.id]) map[e.target.id].setAttribute('aria-current','true');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(map).forEach(function(id){ obs.observe(document.getElementById(id)); });
+  })();
+</script>
 
 </body>
 </html>
