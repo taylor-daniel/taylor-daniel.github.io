@@ -37,6 +37,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <title>Daniel Taylor Portfolio</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>Daniel Taylor Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
     color-scheme: dark;
@@ -421,8 +423,8 @@
         </div>
         <div class="facts rise rise-6">
           <div><b>4+</b><span>Years in data &amp; analytics</span></div>
-          <div><b>02</b><span>Published case studies</span></div>
-          <div><b>06</b><span>Step delivery method</span></div>
+          <div><b data-stat="cases">02</b><span>Published case studies</span></div>
+          <div><b data-stat="steps">06</b><span>Step delivery method</span></div>
         </div>
       </div>
     </div>
@@ -1073,9 +1075,17 @@
       Object.keys(map).forEach(function(id){ obs.observe(document.getElementById(id)); });
     }
 
-    // Count-up on the cover stats
+    // Count-up on the cover stats (case-study and method counts read the page itself)
     (function(){
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var counts = {
+        cases: document.querySelectorAll('#work .card .badge.ok').length,
+        steps: document.querySelectorAll('.method .step').length
+      };
+      Object.keys(counts).forEach(function(key){
+        var el = document.querySelector('.facts b[data-stat="' + key + '"]');
+        if(el && counts[key] > 0) el.textContent = String(counts[key]).padStart(2, '0');
+      });
       var nums = Array.prototype.slice.call(document.querySelectorAll('.facts b'));
       nums.forEach(function(el){
         var text = el.textContent.trim();
