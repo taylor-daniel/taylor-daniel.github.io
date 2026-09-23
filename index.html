@@ -311,18 +311,74 @@
         <article class="card">
           <div class="card-head">
             <h3>HR &amp; Workforce Analytics Suite</h3>
-            <span class="badge wip">Write-up in progress</span>
+            <span class="badge ok">Published</span>
           </div>
-          <p class="sub">Automated HR reporting and interactive dashboards covering the employee lifecycle, built on people data that had to be modelled and defined before it could be measured.</p>
+          <p class="sub">HR reporting was assembled by hand each month: data pulled from several systems, cleaned in spreadsheets, delivered as static decks, and several days gone before anyone could analyse anything. I built the pipeline and the Power BI model behind an automated suite covering workforce composition, attrition hotspots and employee experience, refreshed weekly and reconciled against the HR system.</p>
           <div class="tags">
-            <span class="tag">KPI design</span><span class="tag">Data modelling</span>
-            <span class="tag">Automated reporting</span><span class="tag">Dashboarding</span>
+            <span class="tag">Databricks</span><span class="tag">PySpark</span><span class="tag">Microsoft Fabric</span>
+            <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Data modelling</span>
           </div>
           <div class="kpis">
-            <div class="kpi"><div class="k">Coverage</div><div class="v">Headcount · Attrition · L&amp;D</div></div>
-            <div class="kpi"><div class="k">Also</div><div class="v">Performance · Talent · Experience</div></div>
-            <div class="kpi"><div class="k">Planning</div><div class="v">Strategic HR KPIs · Workforce planning</div></div>
-            <div class="kpi"><div class="k">Focus</div><div class="v">Automated refresh, self-serve dashboards</div></div>
+            <div class="kpi"><div class="k">Role</div><div class="v">People Data Analyst</div></div>
+            <div class="kpi"><div class="k">Period</div><div class="v">Feb 2023 – Jun 2026</div></div>
+            <div class="kpi"><div class="k">Cycle time</div><div class="v">Days of manual work → weekly refresh</div></div>
+            <div class="kpi"><div class="k">Validation</div><div class="v">Reconciled to the HR system</div></div>
+          </div>
+          <button class="toggle" type="button" aria-expanded="false" aria-controls="d2" data-toggle="d2">
+            <span class="chev" aria-hidden="true">&#9654;</span><span class="lbl-txt">Read the full case study</span>
+          </button>
+          <div class="detail" id="d2" hidden>
+            <div class="split">
+              <div>
+                <h4>Business problem</h4>
+                <ul>
+                  <li>Data pulled separately from multiple HR systems and cleaned by hand</li>
+                  <li>Several days each month to compile, validate and distribute basic updates</li>
+                  <li>No consistent view of trends by entity, cadre, generation or reason for exit</li>
+                  <li>Nothing connecting headcount growth, attrition hotspots and employee experience in one place</li>
+                </ul>
+                <h4>What the suite covers</h4>
+                <ul>
+                  <li>Workforce size and composition by level, cadre, gender and generation</li>
+                  <li>Attrition trends, new hires versus exits, and hotspots by department and legal entity</li>
+                  <li>Employee experience indices, eNPS, and exit interview reasons</li>
+                  <li>Performance and talent management, strategic HR KPIs, workforce planning</li>
+                  <li>Learning &amp; development modelled and loaded; dashboard still to come</li>
+                </ul>
+              </div>
+              <div>
+                <h4>What I did</h4>
+                <ul>
+                  <li>Built the ingestion and transformation pipeline in Databricks with PySpark</li>
+                  <li>Profiled, cleaned and standardised the HR, L&amp;D, exit and survey datasets</li>
+                  <li>Ran null, duplicate, unmatched-key and row-count checks at every stage</li>
+                  <li>Modelled a star schema in Power BI: an employee fact table related to promotion, L&amp;D, exit and survey tables</li>
+                  <li>Wrote the DAX measures: attrition rate, average tenure, headcount trend, experience index, eNPS</li>
+                  <li>Built the dashboard pages and reconciled headcount and exits to the HR system</li>
+                </ul>
+                <h4>What the business gained</h4>
+                <ul>
+                  <li>Where attrition actually concentrates, instead of one group-level rate</li>
+                  <li>Whether headcount growth is outpacing attrition, year by year</li>
+                  <li>How composition is shifting across generation, gender and leadership level</li>
+                  <li>Experience and eNPS trends alongside the headcount picture</li>
+                </ul>
+              </div>
+            </div>
+            <h4>Findings</h4>
+            <ul>
+              <li>Headcount rising steadily, with growth outpacing attrition and exits declining</li>
+              <li>Attrition concentrated in a few departments and in junior cadres and younger generations</li>
+              <li>A predominantly millennial workforce shifting toward more Gen Z representation and a more balanced gender mix</li>
+              <li>Strong experience scores overall; exits driven by career advancement and relocation rather than pay or relationships</li>
+            </ul>
+            <h4>Lessons learned</h4>
+            <ul>
+              <li>Agreeing what a KPI means is harder, and more valuable, than building the measure</li>
+              <li>People data needs extra care: aggregate far enough that no individual is identifiable</li>
+              <li>Reconcile to the system HR already trusts, or the dashboard doesn't get used</li>
+            </ul>
+            <p style="margin-top:18px"><a href="https://github.com/taylor-daniel/data-analytics-portfolio/tree/main/case-studies/hr-workforce-analytics">Full write-up on GitHub &#8594;</a></p>
           </div>
         </article>
 
