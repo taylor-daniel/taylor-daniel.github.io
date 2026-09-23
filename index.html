@@ -39,6 +39,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <title>Daniel Taylor Portfolio</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>Daniel Taylor Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
     color-scheme: dark;
@@ -1092,17 +1094,22 @@
         var m = text.match(/^(\d+)(.*)$/);
         if(!m) return;
         var target = parseInt(m[1], 10), suffix = m[2] || '', pad = m[1].length;
-        if(reduce) return;
-        var start = null, dur = 1100 + Math.random() * 300;
+        var finalText = String(target).padStart(pad, '0') + suffix;
+        function settle(){ el.textContent = finalText; }
+        if(reduce || document.hidden){ settle(); return; }
+        var start = null, dur = 1100;
         el.textContent = String(0).padStart(pad, '0') + suffix;
+        // safety net: rAF is throttled in background tabs, so guarantee the final value
+        var guard = window.setTimeout(settle, dur + 1200);
         function tick(ts){
           if(start === null) start = ts;
           var t = Math.min(1, (ts - start) / dur);
           var eased = 1 - Math.pow(1 - t, 3);
           el.textContent = String(Math.round(target * eased)).padStart(pad, '0') + suffix;
-          if(t < 1) window.requestAnimationFrame(tick);
+          if(t < 1){ window.requestAnimationFrame(tick); }
+          else { window.clearTimeout(guard); settle(); }
         }
-        window.setTimeout(function(){ window.requestAnimationFrame(tick); }, 450);
+        window.setTimeout(function(){ window.requestAnimationFrame(tick); }, 420);
       });
     })();
   })();
