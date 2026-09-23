@@ -31,6 +31,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <title>Daniel Taylor Portfolio</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>Daniel Taylor Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
     color-scheme: dark;
@@ -159,8 +161,18 @@
   .dot.live{animation:pulse 2.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,138,61,.6)}50%{box-shadow:0 0 0 6px rgba(255,138,61,0)}}
   .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-  .facts{display:flex;flex-wrap:wrap;gap:14px 40px;margin-top:38px;padding-top:26px;border-top:1px solid var(--line)}
-  .facts b{font-size:27px}
+  .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;
+    margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
+  .facts div{position:relative;padding-left:13px;min-width:0}
+  .facts div::before{content:"";position:absolute;left:0;top:5px;bottom:3px;width:2px;border-radius:2px;
+    background:linear-gradient(180deg,var(--accent),rgba(255,138,61,.15))}
+  .facts b{display:block;font-family:var(--display);font-size:clamp(20px,2.6vw,32px);font-weight:700;
+    font-variant-numeric:tabular-nums;line-height:1.15;white-space:nowrap;
+    background:linear-gradient(120deg,var(--accent-2) 10%,var(--accent) 60%,var(--accent-deep) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:0 0 34px rgba(255,138,61,.28)}
+  .facts span{display:block;font-family:var(--mono);font-size:clamp(8.5px,1.05vw,11px);letter-spacing:.11em;
+    text-transform:uppercase;color:var(--muted);line-height:1.45;margin-top:3px}
   .rise{animation:rise .7s cubic-bezier(.2,.7,.3,1) both}
   .rise-1{animation-delay:.05s}.rise-2{animation-delay:.13s}.rise-3{animation-delay:.21s}
   .rise-4{animation-delay:.29s}.rise-5{animation-delay:.37s}.rise-6{animation-delay:.45s}
