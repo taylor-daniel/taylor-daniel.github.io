@@ -47,6 +47,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <title>Daniel Taylor Portfolio</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>Daniel Taylor Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
     color-scheme: dark;
@@ -1110,6 +1112,19 @@
     }
 
     window.addEventListener('hashchange', route);
+
+    // A page refresh should land on the cover, not wherever the hash pointed.
+    // Links shared with a #hash (a case study, a section) still open there.
+    try{
+      var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+      var isReload = nav ? nav.type === 'reload'
+        : (performance.navigation && performance.navigation.type === 1);
+      if(isReload && location.hash){
+        history.replaceState(null, '', location.pathname + location.search);
+        if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      }
+    }catch(e){}
+
     route();
 
     // Nav highlight follows the section in view (home only)
