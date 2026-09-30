@@ -49,6 +49,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <title>Daniel Taylor Portfolio</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>Daniel Taylor Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
     color-scheme: dark;
@@ -413,8 +415,77 @@
   .visualnote strong{color:var(--ink)}
   .casefoot{border-top:1px solid var(--line);padding-block:26px 52px;display:flex;flex-wrap:wrap;gap:12px;
     align-items:center;justify-content:space-between}
+
+  /* ===== outcome line on case cards ===== */
+  .outcome{display:flex;gap:10px;align-items:flex-start;margin-top:16px;padding-top:14px;
+    border-top:1px dashed rgba(255,138,61,.28);font-size:14.5px;color:var(--body)}
+  .outcome svg{width:16px;height:16px;flex:none;margin-top:3px;stroke:var(--accent);fill:none;
+    stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .outcome b{color:var(--accent-2);font-family:var(--display);font-weight:600}
+
+  /* ===== scroll reveal (only when JS + motion allowed) ===== */
+  html.js .rv{opacity:0;transform:translateY(18px)}
+  html.js .rv.in{opacity:1;transform:none;
+    transition:opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1)}
+
+  /* ===== reading progress on case pages ===== */
+  .progress{position:fixed;left:0;right:0;top:0;height:2px;z-index:40;background:transparent;pointer-events:none}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent-2),var(--accent));
+    box-shadow:0 0 12px rgba(255,138,61,.7);transition:width .1s linear}
+
+  /* ===== back to top ===== */
+  .totop{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:35;
+    width:46px;height:46px;border-radius:14px;display:grid;place-items:center;cursor:pointer;
+    background:var(--panel-2);border:1px solid var(--line-strong);color:var(--accent-2);
+    box-shadow:var(--shadow-lift);opacity:0;transform:translateY(12px) scale(.9);pointer-events:none;
+    transition:opacity .25s ease,transform .25s cubic-bezier(.2,.7,.3,1),border-color .2s ease,background .2s ease}
+  .totop.show{opacity:1;transform:none;pointer-events:auto}
+  .totop:hover{border-color:rgba(255,138,61,.5);background:var(--accent-wash)}
+  .totop svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ===== case study journey chips ===== */
+  .journey{display:flex;flex-wrap:wrap;gap:8px;padding-block:16px}
+  .journey button{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:999px;
+    padding:8px 14px;cursor:pointer;white-space:nowrap;
+    transition:color .2s ease,border-color .2s ease,background .2s ease,transform .2s ease}
+  .journey button:hover{color:var(--accent-2);border-color:rgba(255,138,61,.45);
+    background:var(--accent-wash);transform:translateY(-1px)}
+  .journey button[aria-current="true"]{color:var(--accent-2);border-color:rgba(255,138,61,.55);background:var(--accent-wash)}
+  .backbar .wrap{flex-wrap:wrap}
+  .casebody section{scroll-margin-top:110px}
+
+  /* ===== next case study ===== */
+  .nextcase{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    margin-top:8px;padding:20px 22px;border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    transition:transform .22s cubic-bezier(.2,.7,.3,1),border-color .22s ease,background .22s ease,box-shadow .22s ease}
+  .nextcase:hover{transform:translateY(-3px);border-color:rgba(255,138,61,.42);background:var(--panel-2);box-shadow:var(--shadow-lift)}
+  .nextcase .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .nextcase .t{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink);margin-top:5px}
+  .nextcase .arw{font-size:20px;color:var(--accent);transition:transform .22s cubic-bezier(.2,.7,.3,1)}
+  .nextcase:hover .arw{transform:translateX(5px)}
+
+  /* ===== small polish ===== */
+  .tag,.kit .chip{transition:transform .18s ease,border-color .18s ease,background .18s ease}
+  .tag:hover,.kit .chip:hover{transform:translateY(-2px);border-color:rgba(255,138,61,.45)}
+  .step,.node,.stepline,.impact div{will-change:transform}
+
   @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
+<div class="progress" id="progress" hidden aria-hidden="true"><i></i></div>
+<button class="totop" id="totop" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+  (function(){
+    try{
+      if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+        document.documentElement.className += ' js';
+      }
+    }catch(e){}
+  })();
+</script>
 <style>html{-webkit-text-size-adjust:100%;background:#0A0B0E}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -491,6 +562,7 @@
               <div class="tags">
                 <span class="tag">Databricks</span><span class="tag">PySpark</span><span class="tag">Microsoft Fabric</span><span class="tag">Power BI</span>
               </div>
+              <p class="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg><span><b>Impact.</b> Channel, product and conversion performance visible in one view, reconciled to the transaction system.</span></p>
               <span class="more">Read the case study <span class="arw" aria-hidden="true">→</span></span>
             </div>
           </article>
@@ -506,6 +578,7 @@
               <div class="tags">
                 <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Data modelling</span><span class="tag">PySpark</span>
               </div>
+              <p class="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg><span><b>Impact.</b> Several days of manual reporting each month became a weekly automated refresh.</span></p>
               <span class="more">Read the case study <span class="arw" aria-hidden="true">→</span></span>
             </div>
           </article>
@@ -522,6 +595,7 @@
               <div class="tags">
                 <span class="tag">HRIS</span><span class="tag">Requirements</span><span class="tag">Process design</span><span class="tag">Change management</span>
               </div>
+              <p class="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg><span><b>Impact.</b> Around 27 HR processes moved from forms and email into tracked, auditable workflows.</span></p>
               <span class="more">Read the case study <span class="arw" aria-hidden="true">→</span></span>
             </div>
           </article>
@@ -692,10 +766,12 @@
       </div>
     </div>
   </div>
-  <div class="backbar"><div class="wrap"><a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a></div></div>
+  <div class="backbar"><div class="wrap"><a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a>
+      <div class="journey" role="navigation" aria-label="Sections of this case study"><button type="button" data-scroll="case-digital-problem">Problem</button><button type="button" data-scroll="case-digital-approach">Approach</button><button type="button" data-scroll="case-digital-tools">Tools</button><button type="button" data-scroll="case-digital-insights">Insights</button><button type="button" data-scroll="case-digital-impact">Impact</button></div>
+    </div></div>
 
   <div class="casebody wrap-narrow">
-    <section>
+    <section id="case-digital-problem">
       <h2>Business problem</h2>
       <p>An insurance business selling through digital platforms needed to understand how those channels were performing. Nothing existed to answer that: no pipeline, no report, and the required data sat in separate systems rather than in one table.</p>
       <ul>
@@ -705,7 +781,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="case-digital-objective">
       <h2>Objective</h2>
       <ul>
         <li>Improve visibility into product traction, policy sales and premium revenue from digital platforms</li>
@@ -714,7 +790,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="case-digital-approach">
       <h2>Approach</h2>
       <div class="steps">
         <div class="stepline"><span class="num"></span><span><b>Ingestion.</b> Source data landed in ADLS, then into the engineering layer in Microsoft Fabric, which the Databricks notebooks connected to.</span></div>
@@ -730,7 +806,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="case-digital-tools">
       <h2>Tools &amp; technologies</h2>
       <div class="stacklist">
         <div class="stackrow"><b>Azure Data Lake Storage</b><span>Landing zone for source extracts</span></div>
@@ -742,7 +818,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="case-digital-insights">
       <h2>Key analysis &amp; insights</h2>
       <div class="grid2">
         <div>
@@ -762,7 +838,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="case-digital-validation">
       <h2>Validation</h2>
       <ul>
         <li>Total premium reconciled by source against the transaction system</li>
@@ -771,7 +847,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="case-digital-impact">
       <h2>Results &amp; impact</h2>
       <div class="impact">
         <div><div class="k">Visibility</div><div class="v">Channel and product performance, overall and per product, in one reconciled view</div></div>
@@ -789,7 +865,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="case-digital-lessons">
       <h2>Lessons learned</h2>
       <ul>
         <li>Standardise keys before any join; most "wrong" numbers start as a trailing space</li>
@@ -798,6 +874,11 @@
         <li>Reconciliation against a system the business already trusts is what drives adoption</li>
       </ul>
     </section>
+
+    <a class="nextcase" href="#case-hr">
+      <span><span class="k">Next case study</span><span class="t">HR &amp; Workforce Analytics Suite</span></span>
+      <span class="arw" aria-hidden="true">→</span>
+    </a>
 
     <div class="casefoot">
       <a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a>
@@ -819,10 +900,12 @@
       </div>
     </div>
   </div>
-  <div class="backbar"><div class="wrap"><a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a></div></div>
+  <div class="backbar"><div class="wrap"><a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a>
+      <div class="journey" role="navigation" aria-label="Sections of this case study"><button type="button" data-scroll="case-hr-problem">Problem</button><button type="button" data-scroll="case-hr-approach">Approach</button><button type="button" data-scroll="case-hr-tools">Tools</button><button type="button" data-scroll="case-hr-insights">Insights</button><button type="button" data-scroll="case-hr-impact">Impact</button></div>
+    </div></div>
 
   <div class="casebody wrap-narrow">
-    <section>
+    <section id="case-hr-problem">
       <h2>Business problem</h2>
       <p>HR reporting was produced by hand: data pulled separately from multiple HR systems, cleaned in spreadsheets, and presented as static slide decks. Compiling, validating and distributing basic headcount and attrition updates took several days each month, leaving little time for analysis.</p>
       <ul>
@@ -831,7 +914,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="case-hr-objective">
       <h2>Objective</h2>
       <ul>
         <li>Eliminate the repeated manual spreadsheet analysis behind each reporting cycle</li>
@@ -840,7 +923,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="case-hr-approach">
       <h2>Approach</h2>
       <div class="steps">
         <div class="stepline"><span class="num"></span><span><b>Ingestion.</b> HRIS, learning and development, exit interview and survey extracts landed in ADLS, then into the Fabric engineering layer.</span></div>
@@ -856,7 +939,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="case-hr-tools">
       <h2>Tools &amp; technologies</h2>
       <div class="stacklist">
         <div class="stackrow"><b>Databricks + PySpark</b><span>Profiling, cleaning, standardisation, aggregation, quality checks</span></div>
@@ -866,7 +949,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="case-hr-scope">
       <h2>Scope</h2>
       <div class="grid2">
         <div>
@@ -888,7 +971,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="case-hr-insights">
       <h2>Key analysis &amp; insights</h2>
       <ul>
         <li>Headcount is rising steadily, with growth consistently outpacing attrition, while exits have declined over recent years</li>
@@ -899,7 +982,7 @@
       <p style="margin-top:12px;font-size:14.5px;color:var(--muted)">Findings are stated in direction and pattern only. No figures that could identify the organisation or any individual are published.</p>
     </section>
 
-    <section>
+    <section id="case-hr-validation">
       <h2>Validation</h2>
       <ul>
         <li>Headcount and exits reconciled against the HR information system</li>
@@ -908,7 +991,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="case-hr-impact">
       <h2>Results &amp; impact</h2>
       <div class="impact">
         <div><div class="k">Manual work</div><div class="v">Several days of compiling each month → a weekly automated refresh</div></div>
@@ -926,7 +1009,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="case-hr-lessons">
       <h2>Lessons learned</h2>
       <ul>
         <li>Agreeing what a KPI means is harder, and more valuable, than building the measure</li>
@@ -935,6 +1018,11 @@
         <li>Reconcile to the system HR already trusts, or the dashboard doesn't get used</li>
       </ul>
     </section>
+
+    <a class="nextcase" href="#case-hrsys">
+      <span><span class="k">Next case study</span><span class="t">HR Systems &amp; Process Automation</span></span>
+      <span class="arw" aria-hidden="true">→</span>
+    </a>
 
     <div class="casefoot">
       <a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a>
@@ -956,10 +1044,12 @@
       </div>
     </div>
   </div>
-  <div class="backbar"><div class="wrap"><a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a></div></div>
+  <div class="backbar"><div class="wrap"><a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a>
+      <div class="journey" role="navigation" aria-label="Sections of this case study"><button type="button" data-scroll="case-hrsys-problem">Problem</button><button type="button" data-scroll="case-hrsys-processes">Processes</button><button type="button" data-scroll="case-hrsys-approach">Approach</button><button type="button" data-scroll="case-hrsys-impact">Impact</button></div>
+    </div></div>
 
   <div class="casebody wrap-narrow">
-    <section>
+    <section id="case-hrsys-problem">
       <h2>Business problem</h2>
       <p>A financial services group ran its HR processes manually: forms, emails and spreadsheets moving between employees, line managers and the HR division.</p>
       <ul>
@@ -970,7 +1060,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="case-hrsys-objective">
       <h2>Objective</h2>
       <ul>
         <li>Move HR processes off manual workflows and onto a single system</li>
@@ -980,7 +1070,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="case-hrsys-processes">
       <h2>Processes automated</h2>
       <p>Around <strong>27 HR processes</strong> now run on the system, across the employee lifecycle:</p>
       <div class="grid2">
@@ -1004,7 +1094,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="case-hrsys-approach">
       <h2>My role &amp; approach</h2>
       <div class="steps">
         <div class="stepline"><span class="num"></span><span><b>Requirements gathering.</b> Worked with HR process owners to document how each process actually runs, who approves what, and what the system needed to enforce.</span></div>
@@ -1018,7 +1108,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="case-hrsys-impact">
       <h2>Results &amp; impact</h2>
       <div class="impact">
         <div><div class="k">Automation</div><div class="v">~27 processes moved from forms and email into tracked system workflows</div></div>
@@ -1040,7 +1130,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="case-hrsys-lessons">
       <h2>Lessons learned</h2>
       <ul>
         <li>Structure at the point of capture beats cleaning downstream; every field the system enforces is a data-quality problem you never have to fix in a pipeline</li>
@@ -1055,6 +1145,11 @@
         The organisation, the HR system vendor and product, internal policies and all employee data are excluded. No configuration detail, screenshots or process documentation from the live system is published.
       </div>
     </section>
+
+    <a class="nextcase" href="#case-digital">
+      <span><span class="k">Next case study</span><span class="t">Digital Sales &amp; Revenue Analytics</span></span>
+      <span class="arw" aria-hidden="true">→</span>
+    </a>
 
     <div class="casefoot">
       <a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a>
@@ -1172,6 +1267,91 @@
         if(e.key === 'ArrowDown' && i > -1){ e.preventDefault(); items[(i+1) % items.length].focus(); }
         if(e.key === 'ArrowUp' && i > -1){ e.preventDefault(); items[(i-1+items.length) % items.length].focus(); }
       });
+    })();
+
+
+    // ── scroll reveal ──────────────────────────────────────
+    (function(){
+      if(!document.documentElement.classList.contains('js')) return;
+      var sel = '#view-home .sec-head, #view-home .card, #view-home .flow, #view-home .method, ' +
+                '#view-home .kit article, #view-home .note, #view-home .confid, #view-home .linkcard, #view-home .cvmenu';
+      var items = Array.prototype.slice.call(document.querySelectorAll(sel));
+      items.forEach(function(el){ el.classList.add('rv'); });
+      if(!('IntersectionObserver' in window)){
+        items.forEach(function(el){ el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e, i){
+          if(e.isIntersecting){
+            var el = e.target;
+            var delay = Math.min(i * 70, 210);
+            window.setTimeout(function(){ el.classList.add('in'); }, delay);
+            io.unobserve(el);
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      items.forEach(function(el){ io.observe(el); });
+      // safety: never leave content hidden
+      window.setTimeout(function(){ items.forEach(function(el){ el.classList.add('in'); }); }, 4000);
+    })();
+
+    // ── reading progress on case pages ─────────────────────
+    (function(){
+      var bar = document.getElementById('progress');
+      if(!bar) return;
+      var fill = bar.querySelector('i');
+      function update(){
+        var onCase = !!document.querySelector('[id^="view-case-"]:not([hidden])');
+        bar.hidden = !onCase;
+        if(!onCase) return;
+        var h = document.documentElement;
+        var max = h.scrollHeight - h.clientHeight;
+        fill.style.width = (max > 0 ? Math.min(100, (h.scrollTop / max) * 100) : 0) + '%';
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('hashchange', function(){ window.setTimeout(update, 60); });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    // ── back to top ────────────────────────────────────────
+    (function(){
+      var btn = document.getElementById('totop');
+      if(!btn) return;
+      function toggle(){ btn.classList.toggle('show', window.scrollY > 700); }
+      window.addEventListener('scroll', toggle, { passive: true });
+      btn.addEventListener('click', function(){
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      });
+      toggle();
+    })();
+
+    // ── case-study journey chips ───────────────────────────
+    (function(){
+      var chips = Array.prototype.slice.call(document.querySelectorAll('.journey button'));
+      if(!chips.length) return;
+      chips.forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var target = document.getElementById(btn.getAttribute('data-scroll'));
+          if(!target) return;
+          var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        });
+      });
+      if(!('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(!e.isIntersecting) return;
+          var id = e.target.id;
+          chips.forEach(function(b){
+            if(b.getAttribute('data-scroll') === id) b.setAttribute('aria-current','true');
+            else b.removeAttribute('aria-current');
+          });
+        });
+      }, { rootMargin: '-15% 0px -70% 0px' });
+      document.querySelectorAll('.casebody section[id]').forEach(function(sec){ io.observe(sec); });
     })();
 
     // Count-up on the cover stats (case-study and method counts read the page itself)
