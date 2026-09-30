@@ -51,6 +51,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <title>Daniel Taylor Portfolio</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>Daniel Taylor Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
     color-scheme: dark;
@@ -470,6 +472,25 @@
   .tag:hover,.kit .chip:hover{transform:translateY(-2px);border-color:rgba(255,138,61,.45)}
   .step,.node,.stepline,.impact div{will-change:transform}
 
+
+  /* ===== illustrative charts on case pages ===== */
+  .vizwrap{display:grid;gap:18px}
+  .viz{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 20px 16px;
+    transition:border-color .22s ease,transform .22s cubic-bezier(.2,.7,.3,1)}
+  .viz:hover{border-color:rgba(255,138,61,.3);transform:translateY(-2px)}
+  .viz h4{font-family:var(--display);font-size:16.5px;font-weight:600;color:var(--ink);margin:0}
+  .viz .cap{font-size:14px;color:var(--muted);margin:5px 0 14px;max-width:62ch}
+  .viz .chart{width:100%;height:auto;display:block;overflow:visible}
+  .viz .chart text{font-family:var(--sans)}
+  .viz .bar rect:last-of-type,.viz .dot circle{transition:opacity .18s ease}
+  .viz .chart:hover .bar rect:last-of-type{opacity:.55}
+  .viz .bar:hover rect:last-of-type{opacity:1}
+  .viz .chart:hover .dot circle{opacity:.55}
+  .viz .dot:hover circle{opacity:1;r:5.5}
+  .vizlabel{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--wip);background:var(--wip-wash);
+    border:1px solid rgba(255,196,107,.3);border-radius:999px;padding:5px 11px;margin-bottom:14px}
+
   @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 <div class="progress" id="progress" hidden aria-hidden="true"><i></i></div>
@@ -535,7 +556,7 @@
         <div class="facts rise rise-6">
           <div><b>4+</b><span>Years in data &amp; analytics</span></div>
           <div><b data-stat="cases">02</b><span>Published case studies</span></div>
-          <div><b data-stat="steps">06</b><span>Step delivery method</span></div>
+          <div><b>60%+</b><span>Faster reporting turnaround</span></div>
         </div>
       </div>
     </div>
@@ -578,7 +599,7 @@
               <div class="tags">
                 <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Data modelling</span><span class="tag">PySpark</span>
               </div>
-              <p class="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg><span><b>Impact.</b> Several days of manual reporting each month became a weekly automated refresh.</span></p>
+              <p class="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg><span><b>Impact.</b> Manual reporting turnaround cut by over 60% — days of work each month became a weekly automated refresh.</span></p>
               <span class="more">Read the case study <span class="arw" aria-hidden="true">→</span></span>
             </div>
           </article>
@@ -767,7 +788,7 @@
     </div>
   </div>
   <div class="backbar"><div class="wrap"><a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a>
-      <div class="journey" role="navigation" aria-label="Sections of this case study"><button type="button" data-scroll="case-digital-problem">Problem</button><button type="button" data-scroll="case-digital-approach">Approach</button><button type="button" data-scroll="case-digital-tools">Tools</button><button type="button" data-scroll="case-digital-insights">Insights</button><button type="button" data-scroll="case-digital-impact">Impact</button></div>
+      <div class="journey" role="navigation" aria-label="Sections of this case study"><button type="button" data-scroll="case-digital-problem">Problem</button><button type="button" data-scroll="case-digital-approach">Approach</button><button type="button" data-scroll="case-digital-tools">Tools</button><button type="button" data-scroll="case-digital-insights">Insights</button><button type="button" data-scroll="case-digital-impact">Impact</button><button type="button" data-scroll="case-digital-visuals">Visuals</button></div>
     </div></div>
 
   <div class="casebody wrap-narrow">
@@ -858,11 +879,23 @@
       <p style="margin-top:16px">The reporting was designed to support decisions on which distribution channels and product categories to prioritise, in order to grow digital revenue and policy volume over time. Measures delivered: total revenue, revenue by product category, average revenue by category, quote-to-policy conversion and policy counts.</p>
     </section>
 
-    <section>
+    <section id="case-digital-visuals">
       <h2>Dashboards &amp; visuals</h2>
-      <div class="visualnote">
-        The production report and its figures belong to the client and are not published. Planned for this repository: a sanitised PySpark example of the standardise → join → classify → aggregate → quality-check pattern on synthetic data, and an architecture diagram with generic system names.
-      </div>
+      <span class="vizlabel">Synthetic data · illustrative</span>
+      <p>The production report and its figures belong to the client and are not published. The views below rebuild the <strong>shape</strong> of that reporting on synthetic data, so the analysis is visible without exposing anything real.</p>
+      <div class="vizwrap">
+        <div class="viz">
+          <h4>Revenue by product category and channel</h4>
+          <p class="cap">Which products carry the digital book, and how the two channels split within each.</p>
+          <svg class="chart" viewBox="0 0 560 250" role="img" aria-label="Grouped bar chart comparing revenue index by product category across two digital channels" preserveAspectRatio="xMidYMid meet"><line x1="44" x2="540" y1="196.0" y2="196.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="200.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">0</text><line x1="44" x2="540" y1="153.0" y2="153.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="157.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">27</text><line x1="44" x2="540" y1="110.0" y2="110.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="114.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">55</text><line x1="44" x2="540" y1="67.0" y2="67.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="71.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">82</text><line x1="44" x2="540" y1="24.0" y2="24.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="28.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">110</text><g class="bar"><title>Web journey · Motor: index 100</title><rect x="78.0" y="39.6" width="26" height="156.4" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Intermediary portal · Motor: index 62</title><rect x="108.0" y="99.1" width="26" height="96.9" rx="4" fill="#4a93e8"/></g><text x="106.0" y="216" text-anchor="middle" font-size="11.5" fill="var(--muted)">Motor</text><g class="bar"><title>Web journey · Travel: index 74</title><rect x="202.0" y="80.3" width="26" height="115.7" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Intermediary portal · Travel: index 41</title><rect x="232.0" y="131.9" width="26" height="64.1" rx="4" fill="#4a93e8"/></g><text x="230.0" y="216" text-anchor="middle" font-size="11.5" fill="var(--muted)">Travel</text><g class="bar"><title>Web journey · Household: index 48</title><rect x="326.0" y="120.9" width="26" height="75.1" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Intermediary portal · Household: index 33</title><rect x="356.0" y="144.4" width="26" height="51.6" rx="4" fill="#4a93e8"/></g><text x="354.0" y="216" text-anchor="middle" font-size="11.5" fill="var(--muted)">Household</text><g class="bar"><title>Web journey · Other: index 22</title><rect x="450.0" y="161.6" width="26" height="34.4" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Intermediary portal · Other: index 15</title><rect x="480.0" y="172.5" width="26" height="23.5" rx="4" fill="#4a93e8"/></g><text x="478.0" y="216" text-anchor="middle" font-size="11.5" fill="var(--muted)">Other</text><g transform="translate(44,234)"><rect x="0" y="-9" width="10" height="10" rx="3" fill="#e06a2b"/><text x="16" y="0" font-size="11.5" fill="var(--muted)">Web journey</text><rect x="120" y="-9" width="10" height="10" rx="3" fill="#4a93e8"/><text x="136" y="0" font-size="11.5" fill="var(--muted)">Intermediary portal</text></g><line x1="44" x2="540" y1="196" y2="196" stroke="rgba(255,255,255,.08)" stroke-width="1"/></svg>
+        </div>
+        <div class="viz">
+          <h4>Revenue trend, indexed to the first month</h4>
+          <p class="cap">Seasonality and direction across a year, indexed so no absolute figures are shown.</p>
+          <svg class="chart" viewBox="0 0 560 230" role="img" aria-label="Area chart of monthly revenue index rising across twelve months" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e06a2b" stop-opacity=".38"/><stop offset="1" stop-color="#e06a2b" stop-opacity="0"/></linearGradient></defs><line x1="44" x2="540" y1="180.0" y2="180.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="184.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">0</text><line x1="44" x2="540" y1="127.3" y2="127.3" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="131.3" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">60</text><line x1="44" x2="540" y1="74.7" y2="74.7" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="78.7" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">120</text><line x1="44" x2="540" y1="22.0" y2="22.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="26.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">180</text><path d="M44.0 92.2 L89.1 95.7 L134.2 85.2 L179.3 73.8 L224.4 79.1 L269.5 67.6 L314.5 57.1 L359.6 63.3 L404.7 51.0 L449.8 41.3 L494.9 49.2 L540.0 34.3 L540.0 180 L44.0 180 Z" fill="url(#fade)"/><path d="M44.0 92.2 L89.1 95.7 L134.2 85.2 L179.3 73.8 L224.4 79.1 L269.5 67.6 L314.5 57.1 L359.6 63.3 L404.7 51.0 L449.8 41.3 L494.9 49.2 L540.0 34.3" fill="none" stroke="#e06a2b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><g class="dot"><title>Month J: index 100</title><circle cx="44.0" cy="92.2" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="44.0" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">J</text><g class="dot"><title>Month F: index 96</title><circle cx="89.1" cy="95.7" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="89.1" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">F</text><g class="dot"><title>Month M: index 108</title><circle cx="134.2" cy="85.2" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="134.2" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">M</text><g class="dot"><title>Month A: index 121</title><circle cx="179.3" cy="73.8" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="179.3" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">A</text><g class="dot"><title>Month M: index 115</title><circle cx="224.4" cy="79.1" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="224.4" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">M</text><g class="dot"><title>Month J: index 128</title><circle cx="269.5" cy="67.6" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="269.5" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">J</text><g class="dot"><title>Month J: index 140</title><circle cx="314.5" cy="57.1" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="314.5" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">J</text><g class="dot"><title>Month A: index 133</title><circle cx="359.6" cy="63.3" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="359.6" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">A</text><g class="dot"><title>Month S: index 147</title><circle cx="404.7" cy="51.0" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="404.7" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">S</text><g class="dot"><title>Month O: index 158</title><circle cx="449.8" cy="41.3" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="449.8" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">O</text><g class="dot"><title>Month N: index 149</title><circle cx="494.9" cy="49.2" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="494.9" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">N</text><g class="dot"><title>Month D: index 166</title><circle cx="540.0" cy="34.3" r="4" fill="#e06a2b" stroke="var(--panel)" stroke-width="2"/></g><text x="540.0" y="200" text-anchor="middle" font-size="10.5" fill="var(--muted)">D</text><text x="540.0" y="22.3" text-anchor="end" font-size="12" font-weight="600" font-family="var(--display)" fill="var(--ink)">166</text><line x1="44" x2="540" y1="180" y2="180" stroke="rgba(255,255,255,.08)" stroke-width="1"/></svg>
+        </div>
+        </div>
+      <p style="margin-top:14px;font-size:14px;color:var(--muted)">Values are indexed or relative, never client figures. Hover a bar or point for its value.</p>
     </section>
 
     <section id="case-digital-lessons">
@@ -894,14 +927,14 @@
     <div class="wrap">
       <p class="eyebrow">Case study 02 · Workforce &amp; people analytics</p>
       <h1>HR &amp; Workforce Analytics Suite</h1>
-      <p class="lede">From a multi-day manual reporting cycle to an automated pipeline and Power BI suite covering headcount, attrition hotspots and employee experience, refreshed weekly and reconciled to the HR system.</p>
+      <p class="lede">From a multi-day manual reporting cycle to an automated pipeline and Power BI suite covering headcount, attrition hotspots and employee experience — refreshed weekly, reconciled to the HR system, and cutting manual reporting turnaround by over 60%.</p>
       <div class="casemeta">
-        <span>Role: People Data Analyst</span><span>Period: Feb 2023 – Jun 2026</span><span>Refresh: Weekly</span>
+        <span>Role: People Data Analyst</span><span>Period: Feb 2023 – Jun 2026</span><span>Reporting across nine group entities</span><span>Refresh: Weekly</span>
       </div>
     </div>
   </div>
   <div class="backbar"><div class="wrap"><a class="back" href="#work"><span class="arw" aria-hidden="true">←</span> All case studies</a>
-      <div class="journey" role="navigation" aria-label="Sections of this case study"><button type="button" data-scroll="case-hr-problem">Problem</button><button type="button" data-scroll="case-hr-approach">Approach</button><button type="button" data-scroll="case-hr-tools">Tools</button><button type="button" data-scroll="case-hr-insights">Insights</button><button type="button" data-scroll="case-hr-impact">Impact</button></div>
+      <div class="journey" role="navigation" aria-label="Sections of this case study"><button type="button" data-scroll="case-hr-problem">Problem</button><button type="button" data-scroll="case-hr-approach">Approach</button><button type="button" data-scroll="case-hr-tools">Tools</button><button type="button" data-scroll="case-hr-insights">Insights</button><button type="button" data-scroll="case-hr-impact">Impact</button><button type="button" data-scroll="case-hr-visuals">Visuals</button></div>
     </div></div>
 
   <div class="casebody wrap-narrow">
@@ -994,7 +1027,7 @@
     <section id="case-hr-impact">
       <h2>Results &amp; impact</h2>
       <div class="impact">
-        <div><div class="k">Manual work</div><div class="v">Several days of compiling each month → a weekly automated refresh</div></div>
+        <div><div class="k">Manual work</div><div class="v">Several days of compiling each month → a weekly automated refresh, over 60% faster turnaround</div></div>
         <div><div class="k">Attrition</div><div class="v">Hotspots by department, cadre, generation and entity, not one group rate</div></div>
         <div><div class="k">Growth</div><div class="v">Whether headcount growth outpaces attrition, year by year</div></div>
         <div><div class="k">Experience</div><div class="v">Experience and eNPS trends beside the headcount picture</div></div>
@@ -1002,11 +1035,23 @@
       <p style="margin-top:16px">Leadership and HR can target retention effort at the specific departments, cadres and generations where turnover concentrates, and connect those decisions to what exit interviews and surveys say about why people leave.</p>
     </section>
 
-    <section>
+    <section id="case-hr-visuals">
       <h2>Dashboards &amp; visuals</h2>
-      <div class="visualnote">
-        People data is sensitive, so no dashboard screenshots or figures from the production suite are published. Planned for this repository: dashboard views rebuilt on <strong>synthetic</strong> employee data, a data model diagram with generic table names, and sample DAX measures.
-      </div>
+      <span class="vizlabel">Synthetic data · illustrative</span>
+      <p>People data is sensitive, so nothing from the production suite is published. The views below rebuild the <strong>shape</strong> of the analysis on synthetic data — the patterns are real, the numbers are invented.</p>
+      <div class="vizwrap">
+        <div class="viz">
+          <h4>Attrition by tenure band</h4>
+          <p class="cap">The shape of the finding: turnover concentrates in the earliest years of tenure.</p>
+          <svg class="chart" viewBox="0 0 560 230" role="img" aria-label="Horizontal bar chart: attrition concentrates in the shortest tenure bands" preserveAspectRatio="xMidYMid meet"><text x="116" y="41" text-anchor="end" font-size="12" fill="var(--muted)">Under 1 year</text><rect x="128" y="26" width="372" height="22" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>Under 1 year: relative attrition index 100</title><rect x="128" y="26" width="338.2" height="22" rx="5" fill="#e06a2b"/></g><text x="476.2" y="42" font-size="11.5" font-family="var(--mono)" fill="var(--ink)">100</text><text x="116" y="77" text-anchor="end" font-size="12" fill="var(--muted)">1–2 years</text><rect x="128" y="62" width="372" height="22" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>1–2 years: relative attrition index 78</title><rect x="128" y="62" width="263.8" height="22" rx="5" fill="#e06a2b"/></g><text x="401.8" y="78" font-size="11.5" font-family="var(--mono)" fill="var(--ink)">78</text><text x="116" y="113" text-anchor="end" font-size="12" fill="var(--muted)">3–5 years</text><rect x="128" y="98" width="372" height="22" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>3–5 years: relative attrition index 39</title><rect x="128" y="98" width="131.9" height="22" rx="5" fill="#e06a2b"/></g><text x="269.9" y="114" font-size="11.5" font-family="var(--mono)" fill="var(--ink)">39</text><text x="116" y="149" text-anchor="end" font-size="12" fill="var(--muted)">6–10 years</text><rect x="128" y="134" width="372" height="22" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>6–10 years: relative attrition index 21</title><rect x="128" y="134" width="71.0" height="22" rx="5" fill="#e06a2b"/></g><text x="209.0" y="150" font-size="11.5" font-family="var(--mono)" fill="var(--ink)">21</text><text x="116" y="185" text-anchor="end" font-size="12" fill="var(--muted)">Over 10 years</text><rect x="128" y="170" width="372" height="22" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>Over 10 years: relative attrition index 12</title><rect x="128" y="170" width="40.6" height="22" rx="5" fill="#e06a2b"/></g><text x="178.6" y="186" font-size="11.5" font-family="var(--mono)" fill="var(--ink)">12</text></svg>
+        </div>
+        <div class="viz">
+          <h4>New hires against exits, by year</h4>
+          <p class="cap">Whether workforce growth is outpacing attrition, year on year.</p>
+          <svg class="chart" viewBox="0 0 560 240" role="img" aria-label="Grouped bar chart: new hires rising while exits decline across five years" preserveAspectRatio="xMidYMid meet"><line x1="44" x2="540" y1="186.0" y2="186.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="190.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">0</text><line x1="44" x2="540" y1="145.5" y2="145.5" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="149.5" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">30</text><line x1="44" x2="540" y1="105.0" y2="105.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="109.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">60</text><line x1="44" x2="540" y1="64.5" y2="64.5" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="68.5" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">90</text><line x1="44" x2="540" y1="24.0" y2="24.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="28.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">120</text><g class="bar"><title>New hires · Y1: index 62</title><rect x="67.6" y="102.3" width="24" height="83.7" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Exits · Y1: index 48</title><rect x="95.6" y="121.2" width="24" height="64.8" rx="4" fill="#4a93e8"/></g><text x="93.6" y="206" text-anchor="middle" font-size="11.5" fill="var(--muted)">Y1</text><g class="bar"><title>New hires · Y2: index 74</title><rect x="166.8" y="86.1" width="24" height="99.9" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Exits · Y2: index 45</title><rect x="194.8" y="125.2" width="24" height="60.8" rx="4" fill="#4a93e8"/></g><text x="192.8" y="206" text-anchor="middle" font-size="11.5" fill="var(--muted)">Y2</text><g class="bar"><title>New hires · Y3: index 88</title><rect x="266.0" y="67.2" width="24" height="118.8" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Exits · Y3: index 41</title><rect x="294.0" y="130.7" width="24" height="55.4" rx="4" fill="#4a93e8"/></g><text x="292.0" y="206" text-anchor="middle" font-size="11.5" fill="var(--muted)">Y3</text><g class="bar"><title>New hires · Y4: index 96</title><rect x="365.2" y="56.4" width="24" height="129.6" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Exits · Y4: index 36</title><rect x="393.2" y="137.4" width="24" height="48.6" rx="4" fill="#4a93e8"/></g><text x="391.2" y="206" text-anchor="middle" font-size="11.5" fill="var(--muted)">Y4</text><g class="bar"><title>New hires · Y5: index 108</title><rect x="464.4" y="40.2" width="24" height="145.8" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Exits · Y5: index 30</title><rect x="492.4" y="145.5" width="24" height="40.5" rx="4" fill="#4a93e8"/></g><text x="490.4" y="206" text-anchor="middle" font-size="11.5" fill="var(--muted)">Y5</text><g transform="translate(44,226)"><rect x="0" y="-9" width="10" height="10" rx="3" fill="#e06a2b"/><text x="16" y="0" font-size="11.5" fill="var(--muted)">New hires</text><rect x="104" y="-9" width="10" height="10" rx="3" fill="#4a93e8"/><text x="120" y="0" font-size="11.5" fill="var(--muted)">Exits</text></g><line x1="44" x2="540" y1="186" y2="186" stroke="rgba(255,255,255,.08)" stroke-width="1"/></svg>
+        </div>
+        </div>
+      <p style="margin-top:14px;font-size:14px;color:var(--muted)">Values are indexed or relative, never client figures. Hover a bar or point for its value.</p>
     </section>
 
     <section id="case-hr-lessons">
@@ -1040,7 +1085,7 @@
       <h1>HR Systems &amp; Process Automation</h1>
       <p class="lede">Gathering the requirements, designing the process flows and configuring a cloud HRIS that now runs about 27 HR processes end to end, then owning its maintenance, support and vendor relationship.</p>
       <div class="casemeta">
-        <span>Role: People Data Analyst</span><span>Period: Feb 2023 – present</span><span>~27 processes automated</span>
+        <span>Role: People Data Analyst</span><span>Period: Feb 2023 – present</span><span>Six operating companies</span><span>~27 processes automated</span>
       </div>
     </div>
   </div>
