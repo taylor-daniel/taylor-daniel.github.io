@@ -45,6 +45,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <title>Daniel Taylor Portfolio</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>Daniel Taylor Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
     color-scheme: dark;
@@ -335,6 +337,22 @@
   .linkcard:hover .ic svg{stroke:#160B02}
   .linkcard .lt{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink)}
   .linkcard .ls{font-size:clamp(11.5px,3.1vw,13px);overflow-wrap:anywhere;color:var(--muted);font-family:var(--mono)}
+  .cvmenu{position:relative}
+  button.linkcard{width:100%;font-family:var(--sans);font-size:inherit;text-align:left;cursor:pointer}
+  .cvtrigger .chev{margin-left:auto;color:var(--accent);font-size:15px;transition:transform .24s cubic-bezier(.2,.7,.3,1)}
+  .cvtrigger[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .cvtrigger[aria-expanded="true"]{border-color:rgba(255,138,61,.42);background:var(--panel-2)}
+  .cvpanel{position:absolute;z-index:14;top:calc(100% + 8px);left:0;right:0;padding:6px;
+    background:var(--panel-2);border:1px solid var(--line-strong);border-radius:14px;
+    box-shadow:var(--shadow-lift);animation:cvIn .22s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes cvIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  .cvpanel a{display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:13px 14px;border-radius:10px;color:var(--ink);font-weight:500;font-size:15.5px;
+    transition:background .18s ease,color .18s ease}
+  .cvpanel a + a{margin-top:2px}
+  .cvpanel a:hover,.cvpanel a:focus-visible{background:var(--accent-wash);color:var(--accent-2)}
+  .cvpanel .meta{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
+  .cvpanel a:hover .meta{color:var(--accent)}
   .linkcard .go{margin-left:auto;color:var(--accent);font-size:19px;transition:transform .24s cubic-bezier(.2,.7,.3,1)}
   .linkcard:hover .go{transform:translate(4px,-4px)}
 
@@ -597,22 +615,24 @@
           <p>Two CVs, depending on the role: data and analytics, or HR technology.</p>
         </div>
         <div class="links">
-          <a class="linkcard" href="cv/daniel-taylor-data-analytics-cv.pdf" target="_blank" rel="noopener">
-            <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h4"/></svg></span>
-            <span>
-              <span class="lt">CV — Data &amp; Analytics</span><br>
-              <span class="ls">PDF · opens in a new tab</span>
-            </span>
-            <span class="go" aria-hidden="true">↗</span>
-          </a>
-          <a class="linkcard" href="cv/daniel-taylor-hr-technology-cv.pdf" target="_blank" rel="noopener">
-            <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h4"/></svg></span>
-            <span>
-              <span class="lt">CV — HR Technology</span><br>
-              <span class="ls">PDF · opens in a new tab</span>
-            </span>
-            <span class="go" aria-hidden="true">↗</span>
-          </a>
+          <div class="cvmenu">
+            <button class="linkcard cvtrigger" type="button" id="cv-trigger" aria-expanded="false" aria-controls="cv-panel" aria-haspopup="true">
+              <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h4"/></svg></span>
+              <span>
+                <span class="lt">My CV</span><br>
+                <span class="ls">Two versions · choose the role</span>
+              </span>
+              <span class="chev" aria-hidden="true">▾</span>
+            </button>
+            <div class="cvpanel" id="cv-panel" role="menu" aria-labelledby="cv-trigger" hidden>
+              <a role="menuitem" href="cv/daniel-taylor-data-analytics-cv.pdf" target="_blank" rel="noopener">
+                <span>Data &amp; Analytics</span><span class="meta">PDF ↗</span>
+              </a>
+              <a role="menuitem" href="cv/daniel-taylor-hr-technology-cv.pdf" target="_blank" rel="noopener">
+                <span>HR Technology</span><span class="meta">PDF ↗</span>
+              </a>
+            </div>
+          </div>
           <a class="linkcard" href="https://github.com/taylor-daniel">
             <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/><path d="M13 4l-2 16"/></svg></span>
             <span>
@@ -1110,6 +1130,34 @@
       }, { rootMargin: '-45% 0px -50% 0px' });
       Object.keys(map).forEach(function(id){ obs.observe(document.getElementById(id)); });
     }
+
+    // CV dropdown
+    (function(){
+      var trigger = document.getElementById('cv-trigger'), panel = document.getElementById('cv-panel');
+      if(!trigger || !panel) return;
+      function close(){ panel.hidden = true; trigger.setAttribute('aria-expanded','false'); }
+      function open(){ panel.hidden = false; trigger.setAttribute('aria-expanded','true'); }
+      trigger.addEventListener('click', function(e){
+        e.stopPropagation();
+        panel.hidden ? open() : close();
+      });
+      panel.addEventListener('click', function(e){ if(e.target.closest('a')) close(); });
+      document.addEventListener('click', function(e){
+        if(!panel.hidden && !panel.contains(e.target) && e.target !== trigger) close();
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && !panel.hidden){ close(); trigger.focus(); }
+      });
+      trigger.addEventListener('keydown', function(e){
+        if(e.key === 'ArrowDown'){ e.preventDefault(); open(); var a = panel.querySelector('a'); if(a) a.focus(); }
+      });
+      panel.addEventListener('keydown', function(e){
+        var items = Array.prototype.slice.call(panel.querySelectorAll('a'));
+        var i = items.indexOf(document.activeElement);
+        if(e.key === 'ArrowDown' && i > -1){ e.preventDefault(); items[(i+1) % items.length].focus(); }
+        if(e.key === 'ArrowUp' && i > -1){ e.preventDefault(); items[(i-1+items.length) % items.length].focus(); }
+      });
+    })();
 
     // Count-up on the cover stats (case-study and method counts read the page itself)
     (function(){
