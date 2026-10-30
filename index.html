@@ -583,7 +583,7 @@
             </div>
             <div class="card-body">
               <h3><a href="#case-digital">Digital Sales &amp; Revenue Analytics</a></h3>
-              <p class="sub">A reliable view of product traction, policy sales and premium from digital platforms, built from scratch on Databricks and reconciled to the transaction system.</p>
+              <p class="sub">A reliable view of product traction, policy sales and premium from digital platforms, built from scratch on Databricks and reconciled to the transaction system. Extended in October 2026 with agent-level attribution and a leaderboard.</p>
               <div class="tags">
                 <span class="tag">Databricks</span><span class="tag">PySpark</span><span class="tag">Microsoft Fabric</span><span class="tag">Power BI</span>
               </div>
@@ -795,7 +795,7 @@
       <h1>Digital Sales &amp; Revenue Analytics</h1>
       <p class="lede">Building a trusted view of digital channel performance: a PySpark transformation and data-quality layer on Databricks, reconciled against the transaction system and served to Power BI.</p>
       <div class="casemeta">
-        <span>Role: BI &amp; Analytics Engineer</span><span>Period: 2026</span><span>3 product categories · 2 digital channels</span>
+        <span>Role: BI &amp; Analytics Engineer</span><span>Period: 2026</span><span>3 product categories · 2 digital channels</span><span>Updated Oct 2026</span>
       </div>
     </div>
   </div>
@@ -804,6 +804,11 @@
     </div></div>
 
   <div class="casebody wrap-narrow">
+    <section>
+      <h2>Latest addition</h2>
+      <div class="visualnote"><strong>October 2026 — agent dimension.</strong> The reporting now attributes revenue down to the individual agent. An agent reference table was imported, de-duplicated to one row per agent code and joined to the web revenue table on the agent code carried on the revenue records. A new report page ranks agents by revenue, tracks agent revenue over time, carries KPI cards, and lets users filter and drill through to answer their own agent questions.</div>
+    </section>
+
     <section id="case-digital-problem">
       <h2>Business problem</h2>
       <p>An insurance business selling through digital platforms needed to understand how those channels were performing. Nothing existed to answer that: no pipeline, no report, and the required data sat in separate systems rather than in one table.</p>
@@ -832,6 +837,7 @@
         <div class="stepline"><span class="num"></span><span><b>Integration.</b> Quote, policy, product and transaction datasets joined on validated keys.</span></div>
         <div class="stepline"><span class="num"></span><span><b>Filtering.</b> Draft policies and duplicated columns removed so only real business records counted.</span></div>
         <div class="stepline"><span class="num"></span><span><b>Classification.</b> Source, channel, product group, product type and quote status derived from the policy number structure.</span></div>
+        <div class="stepline"><span class="num"></span><span><b>Agent dimension.</b> Imported the agent reference table, de-duplicated it to one row per agent code, then joined it to the web revenue table on the agent code. De-duplication first: a dimension that is not unique on its key multiplies the fact rows and inflates every total.</span></div>
         <div class="stepline"><span class="num"></span><span><b>Aggregation.</b> Weekly, monthly and yearly summaries: policy counts, revenue, revenue by product category and by month, channel and source by product.</span></div>
         <div class="stepline"><span class="num"></span><span><b>Data-quality checks.</b> Nulls, duplicates, unmatched keys and row counts, with results displayed at every stage rather than only at the end.</span></div>
         <div class="stepline"><span class="num"></span><span><b>Validation.</b> Transformed outputs compared against the transaction system.</span></div>
@@ -862,6 +868,7 @@
             <li>Premium revenue by channel, source and product — three product categories across two digital channels</li>
             <li>Quote-to-policy conversion</li>
             <li>Trends by year and month, and platform comparison</li>
+            <li>Agent-level attribution: revenue by agent, ranked, and agent by product and channel</li>
           </ul>
         </div>
         <div>
@@ -887,6 +894,7 @@
         <div><div class="k">Efficiency</div><div class="v">Quote-to-policy conversion alongside policy volumes</div></div>
         <div><div class="k">Value</div><div class="v">Average revenue per policy, overall and by product category</div></div>
         <div><div class="k">Trend</div><div class="v">Seasonality month to month, and direction year on year</div></div>
+        <div><div class="k">Agent view</div><div class="v">Revenue attributed to individual agents, ranked and filterable</div></div>
       </div>
       <p style="margin-top:16px">The reporting was designed to support decisions on which distribution channels and product categories to prioritise, in order to grow digital revenue and policy volume over time. Measures delivered: total revenue, revenue by product category, average revenue by category, quote-to-policy conversion and policy counts.</p>
     </section>
@@ -905,6 +913,11 @@
           <h4>Revenue by product category and channel</h4>
           <p class="cap">Three product categories across two digital channels: which products carry the digital book, and how the channels split within each.</p>
           <svg class="chart" viewBox="0 0 560 250" role="img" aria-label="Grouped bar chart comparing revenue index across three product categories and two digital channels" preserveAspectRatio="xMidYMid meet"><line x1="44" x2="540" y1="196.0" y2="196.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="200.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">0</text><line x1="44" x2="540" y1="153.0" y2="153.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="157.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">27</text><line x1="44" x2="540" y1="110.0" y2="110.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="114.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">55</text><line x1="44" x2="540" y1="67.0" y2="67.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="71.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">82</text><line x1="44" x2="540" y1="24.0" y2="24.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><text x="36" y="28.0" text-anchor="end" font-size="10" font-family="var(--mono)" fill="var(--muted)">110</text><g class="bar"><title>Intermediary portal · Motor: index 100</title><rect x="89.7" y="39.6" width="34" height="156.4" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Customer app · Motor: index 71</title><rect x="129.7" y="85.0" width="34" height="111.0" rx="4" fill="#4a93e8"/></g><text x="126.7" y="216" text-anchor="middle" font-size="12" fill="var(--muted)">Motor</text><g class="bar"><title>Intermediary portal · Travel: index 68</title><rect x="255.0" y="89.7" width="34" height="106.3" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Customer app · Travel: index 44</title><rect x="295.0" y="127.2" width="34" height="68.8" rx="4" fill="#4a93e8"/></g><text x="292.0" y="216" text-anchor="middle" font-size="12" fill="var(--muted)">Travel</text><g class="bar"><title>Intermediary portal · Household: index 42</title><rect x="420.3" y="130.3" width="34" height="65.7" rx="4" fill="#e06a2b"/></g><g class="bar"><title>Customer app · Household: index 29</title><rect x="460.3" y="150.7" width="34" height="45.3" rx="4" fill="#4a93e8"/></g><text x="457.3" y="216" text-anchor="middle" font-size="12" fill="var(--muted)">Household</text><g transform="translate(44,234)"><rect x="0" y="-9" width="10" height="10" rx="3" fill="#e06a2b"/><text x="16" y="0" font-size="11.5" fill="var(--muted)">Intermediary portal</text><rect x="150" y="-9" width="10" height="10" rx="3" fill="#4a93e8"/><text x="166" y="0" font-size="11.5" fill="var(--muted)">Customer app</text></g><line x1="44" x2="540" y1="196" y2="196" stroke="rgba(255,255,255,.08)" stroke-width="1"/></svg>
+        </div>
+        <div class="viz">
+          <h4>Revenue by agent, ranked</h4>
+          <p class="cap">The agent leaderboard added in October 2026: who generates the revenue, once the agent reference table is joined to the revenue records.</p>
+          <svg class="chart" viewBox="0 0 560 276" role="img" aria-label="Horizontal bar chart ranking agents by revenue index" preserveAspectRatio="xMidYMid meet"><text x="92" y="32" text-anchor="end" font-size="11.5" fill="var(--muted)">Agent 01</text><rect x="104" y="18" width="396" height="19" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>Agent 01: revenue index 100</title><rect x="104" y="18" width="360.0" height="19" rx="5" fill="#e06a2b"/></g><text x="474.0" y="32" font-size="11" font-family="var(--mono)" fill="var(--ink)">100</text><text x="92" y="63" text-anchor="end" font-size="11.5" fill="var(--muted)">Agent 02</text><rect x="104" y="49" width="396" height="19" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>Agent 02: revenue index 88</title><rect x="104" y="49" width="316.8" height="19" rx="5" fill="#e06a2b"/></g><text x="430.8" y="63" font-size="11" font-family="var(--mono)" fill="var(--ink)">88</text><text x="92" y="94" text-anchor="end" font-size="11.5" fill="var(--muted)">Agent 03</text><rect x="104" y="80" width="396" height="19" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>Agent 03: revenue index 74</title><rect x="104" y="80" width="266.4" height="19" rx="5" fill="#e06a2b"/></g><text x="380.4" y="94" font-size="11" font-family="var(--mono)" fill="var(--ink)">74</text><text x="92" y="125" text-anchor="end" font-size="11.5" fill="var(--muted)">Agent 04</text><rect x="104" y="111" width="396" height="19" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>Agent 04: revenue index 61</title><rect x="104" y="111" width="219.6" height="19" rx="5" fill="#e06a2b"/></g><text x="333.6" y="125" font-size="11" font-family="var(--mono)" fill="var(--ink)">61</text><text x="92" y="156" text-anchor="end" font-size="11.5" fill="var(--muted)">Agent 05</text><rect x="104" y="142" width="396" height="19" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>Agent 05: revenue index 52</title><rect x="104" y="142" width="187.2" height="19" rx="5" fill="#e06a2b"/></g><text x="301.2" y="156" font-size="11" font-family="var(--mono)" fill="var(--ink)">52</text><text x="92" y="187" text-anchor="end" font-size="11.5" fill="var(--muted)">Agent 06</text><rect x="104" y="173" width="396" height="19" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>Agent 06: revenue index 44</title><rect x="104" y="173" width="158.4" height="19" rx="5" fill="#e06a2b"/></g><text x="272.4" y="187" font-size="11" font-family="var(--mono)" fill="var(--ink)">44</text><text x="92" y="218" text-anchor="end" font-size="11.5" fill="var(--muted)">Agent 07</text><rect x="104" y="204" width="396" height="19" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>Agent 07: revenue index 33</title><rect x="104" y="204" width="118.8" height="19" rx="5" fill="#e06a2b"/></g><text x="232.8" y="218" font-size="11" font-family="var(--mono)" fill="var(--ink)">33</text><text x="92" y="249" text-anchor="end" font-size="11.5" fill="var(--muted)">Agent 08</text><rect x="104" y="235" width="396" height="19" rx="5" fill="rgba(255,255,255,.04)"/><g class="bar"><title>Agent 08: revenue index 21</title><rect x="104" y="235" width="75.6" height="19" rx="5" fill="#e06a2b"/></g><text x="189.6" y="249" font-size="11" font-family="var(--mono)" fill="var(--ink)">21</text></svg>
         </div>
         <div class="viz">
           <h4>Revenue trend, indexed to the first month</h4>
