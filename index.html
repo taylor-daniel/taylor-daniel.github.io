@@ -157,8 +157,10 @@
                      linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
     background-size:70px 70px;mask-image:radial-gradient(70% 60% at 40% 30%,#000,transparent)}
   .hero .wrap{width:100%}
-  .hero-grid{display:grid;gap:40px;align-items:center;position:relative}
-  @media(min-width:860px){.hero-grid{grid-template-columns:minmax(0,1fr) 360px;gap:48px}}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:40px;align-items:center;position:relative}
+  @media(min-width:860px){.hero-grid{grid-template-columns:minmax(0,1fr) 360px;gap:56px}}
+  @media(min-width:1100px){.hero-grid{grid-template-columns:minmax(0,1fr) 520px;gap:64px}
+    .portrait{width:380px}}
   .portrait{position:relative;width:min(320px,78vw);aspect-ratio:1;margin:0 auto;display:grid;place-items:center;order:-1}
   @media(min-width:860px){.portrait{order:1;width:340px}}
   .portrait::before{content:"";position:absolute;inset:0;border-radius:50%;
@@ -177,7 +179,7 @@
     background:rgba(20,23,31,.92);border:1px solid rgba(255,138,61,.32);border-radius:999px;padding:5px 11px;
     box-shadow:0 10px 26px -14px rgba(0,0,0,1);animation:float 6s ease-in-out infinite}
   .orb.o1{top:6%;left:-2%}
-  .orb.o2{top:44%;right:-4%;animation-delay:-2s}
+  .orb.o2{top:27%;right:-5%;animation-delay:-2s}
   .orb.o3{bottom:6%;left:8%;animation-delay:-4s}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
   h1{font-size:clamp(34px,6vw,60px);line-height:1.06;font-weight:700;max-width:16ch}
@@ -646,6 +648,84 @@
   .chal tr.whyrow.right td,.chal tr.whyrow.wrong td{color:var(--muted)}
   .chal .why{margin-top:0}
 
+
+  /* ======================= hero scene ======================= */
+  .hero-grid{z-index:1}
+  .hero-copy{position:relative;z-index:5;min-width:0}
+  .scene{position:absolute;inset:-80px;pointer-events:none;z-index:1;
+    transform:translate(calc(var(--px,0) * 7px), calc(var(--py,0) * 7px));
+    transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+  @media(max-width:1099px){.scene{inset:-56px}}
+  @media(min-width:1100px){.scene{inset:-110px}}
+  .scene .wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible;
+    transform:translate(calc(var(--px,0) * -4px), calc(var(--py,0) * -4px));
+    transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+  .scene .wires line{stroke:rgba(255,138,61,.26);stroke-width:1;vector-effect:non-scaling-stroke;
+    stroke-dasharray:2 4;animation:flow 7s linear infinite;transition:stroke .25s ease}
+  .scene .wires line.lit{stroke:rgba(255,138,61,.75)}
+  @keyframes flow{to{stroke-dashoffset:-24}}
+  .scene .hubring{position:absolute;left:50%;top:50%;width:46%;aspect-ratio:1;margin:-23% 0 0 -23%;
+    border-radius:50%;border:1px solid rgba(255,138,61,.4);opacity:0;animation:hubping 4.6s ease-out infinite}
+  @keyframes hubping{0%{transform:scale(.72);opacity:.55}70%{transform:scale(1.5);opacity:0}100%{opacity:0}}
+
+  .station{position:absolute;left:calc(var(--x) * 1%);top:calc(var(--y) * 1%);z-index:5;
+    transform:translate(-50%,-50%);pointer-events:auto;background:none;border:0;padding:0;cursor:pointer;
+    animation:drift var(--dur,9s) ease-in-out infinite;animation-delay:var(--del,0s)}
+  @keyframes drift{0%,100%{translate:0 0}50%{translate:0 -6px}}
+  .station .dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;
+    font-family:var(--mono);font-size:10px;letter-spacing:.02em;color:var(--muted);
+    background:rgba(20,23,31,.94);border:1px solid var(--line-strong);
+    box-shadow:0 10px 26px -14px rgba(0,0,0,1);
+    transition:color .22s ease,border-color .22s ease,background .22s ease,transform .22s cubic-bezier(.2,.7,.3,1)}
+  .station:hover .dot,.station:focus-visible .dot{color:#160B02;border-color:transparent;transform:scale(1.14);
+    background:linear-gradient(140deg,var(--accent-2),var(--accent))}
+  .station:focus-visible{outline:none}
+  .station:focus-visible .dot{box-shadow:0 0 0 3px rgba(255,138,61,.35)}
+  .station.seen .dot{color:var(--accent-2);border-color:rgba(255,138,61,.5);background:rgba(44,24,10,.92)}
+  .station .tick{position:absolute;right:-3px;top:-3px;width:13px;height:13px;border-radius:50%;
+    background:var(--accent);display:none;place-items:center}
+  .station .tick::before{content:"";width:3px;height:6px;border:solid #160B02;border-width:0 1.6px 1.6px 0;
+    transform:rotate(42deg) translate(-0.5px,-1px)}
+  .station.seen .tick{display:grid}
+  .station .name{position:absolute;z-index:6;top:50%;transform:translateY(-50%);white-space:nowrap;
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--body);
+    background:rgba(16,18,24,.95);border:1px solid var(--line);border-radius:999px;padding:5px 10px;
+    opacity:0;pointer-events:none;transition:opacity .22s ease,transform .22s cubic-bezier(.2,.7,.3,1)}
+  .station:hover .name,.station:focus-visible .name,.station.next .name{opacity:1}
+  .station.r .name{right:calc(100% + 10px);transform:translateY(-50%) translateX(6px)}
+  .station.l .name{left:calc(100% + 10px);transform:translateY(-50%) translateX(-6px)}
+  .station.r:hover .name,.station.r:focus-visible .name,.station.r.next .name,
+  .station.l:hover .name,.station.l:focus-visible .name,.station.l.next .name{transform:translateY(-50%)}
+  .station.top .name{top:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(-6px)}
+  .station.bot .name{top:auto;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(6px)}
+  .station.top:hover .name,.station.top:focus-visible .name,.station.top.next .name,
+  .station.bot:hover .name,.station.bot:focus-visible .name,.station.bot.next .name{transform:translateX(-50%)}
+  .station.next .dot{border-color:rgba(255,138,61,.55);color:var(--accent-2);
+    animation:stationping 2.6s ease-in-out infinite}
+  @keyframes stationping{0%,100%{box-shadow:0 0 0 0 rgba(255,138,61,.5)}50%{box-shadow:0 0 0 8px rgba(255,138,61,0)}}
+
+  .maplabel{position:absolute;left:50%;bottom:-78px;transform:translateX(-50%);white-space:nowrap;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  @media(min-width:1100px){.maplabel{bottom:-132px}}
+  .maplabel b{color:var(--accent-2);font-weight:500}
+  @media(max-width:859px){.scene,.maplabel{display:none}}
+
+  /* mobile: the same eight stations as a scrollable strip */
+  .stationstrip{display:flex;max-width:100%;gap:8px;overflow-x:auto;scrollbar-width:none;
+    margin:22px -20px 0;padding:0 20px 4px;-webkit-overflow-scrolling:touch}
+  .stationstrip::-webkit-scrollbar{display:none}
+  .stationstrip button{flex:none;display:inline-flex;align-items:center;gap:7px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+    background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer}
+  .stationstrip button .n{color:var(--accent);font-size:10px}
+  .stationstrip button.seen{color:var(--accent-2);border-color:rgba(255,138,61,.42);background:rgba(44,24,10,.7)}
+  .stationstrip button.seen .n::after{content:" \2022"}
+  @media(min-width:860px){.stationstrip{display:none}}
+  @media (prefers-reduced-motion: reduce){
+    .scene,.scene .wires{transform:none}
+    .scene .hubring{display:none}
+  }
+
   @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
 <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
@@ -749,6 +829,52 @@
   <header class="hero" id="top">
     <div class="wrap hero-grid">
       <div class="portrait">
+        <div class="scene" id="scene">
+          <svg class="wires" viewBox="0 0 100 100" aria-hidden="true">
+          <line x1="50" y1="50" x2="50" y2="3" data-wire="work"></line>
+          <line x1="50" y1="50" x2="83" y2="15" data-wire="how"></line>
+          <line x1="50" y1="50" x2="97" y2="50" data-wire="toolkit"></line>
+          <line x1="50" y1="50" x2="83" y2="85" data-wire="practice"></line>
+          <line x1="50" y1="50" x2="50" y2="97" data-wire="connect"></line>
+          <line x1="50" y1="50" x2="17" y2="85" data-wire="case-digital"></line>
+          <line x1="50" y1="50" x2="3" y2="50" data-wire="case-hr"></line>
+          <line x1="50" y1="50" x2="17" y2="15" data-wire="case-hrsys"></line>
+          </svg>
+          <span class="hubring" aria-hidden="true"></span>
+        <button class="station top" type="button" data-go="work" style="--x:50;--y:3;--dur:8s;--del:-0.0s" aria-label="Case studies">
+          <span class="dot">01<span class="tick" aria-hidden="true"></span></span>
+          <span class="name" aria-hidden="true">Case studies</span>
+        </button>
+        <button class="station r" type="button" data-go="how" style="--x:83;--y:15;--dur:9s;--del:-1.3s" aria-label="How I work">
+          <span class="dot">02<span class="tick" aria-hidden="true"></span></span>
+          <span class="name" aria-hidden="true">How I work</span>
+        </button>
+        <button class="station r" type="button" data-go="toolkit" style="--x:97;--y:50;--dur:10s;--del:-2.6s" aria-label="Toolkit">
+          <span class="dot">03<span class="tick" aria-hidden="true"></span></span>
+          <span class="name" aria-hidden="true">Toolkit</span>
+        </button>
+        <button class="station r" type="button" data-go="practice" style="--x:83;--y:85;--dur:11s;--del:-3.9000000000000004s" aria-label="Practice">
+          <span class="dot">04<span class="tick" aria-hidden="true"></span></span>
+          <span class="name" aria-hidden="true">Practice</span>
+        </button>
+        <button class="station bot" type="button" data-go="connect" style="--x:50;--y:97;--dur:8s;--del:-5.2s" aria-label="CV & contact">
+          <span class="dot">05<span class="tick" aria-hidden="true"></span></span>
+          <span class="name" aria-hidden="true">CV & contact</span>
+        </button>
+        <button class="station l" type="button" data-go="case-digital" style="--x:17;--y:85;--dur:9s;--del:-6.5s" aria-label="Digital revenue">
+          <span class="dot">06<span class="tick" aria-hidden="true"></span></span>
+          <span class="name" aria-hidden="true">Digital revenue</span>
+        </button>
+        <button class="station l" type="button" data-go="case-hr" style="--x:3;--y:50;--dur:10s;--del:-7.800000000000001s" aria-label="Workforce">
+          <span class="dot">07<span class="tick" aria-hidden="true"></span></span>
+          <span class="name" aria-hidden="true">Workforce</span>
+        </button>
+        <button class="station l" type="button" data-go="case-hrsys" style="--x:17;--y:15;--dur:11s;--del:-9.1s" aria-label="HR systems">
+          <span class="dot">08<span class="tick" aria-hidden="true"></span></span>
+          <span class="name" aria-hidden="true">HR systems</span>
+        </button>
+        </div>
+        <p class="maplabel" aria-hidden="true">The map · <b>8</b> stations · click to travel</p>
         <div class="avatar" id="avatar">
           <img src="https://avatars.githubusercontent.com/u/274876645?s=460&amp;v=4" srcset="https://avatars.githubusercontent.com/u/274876645?s=460&amp;v=4 460w, https://avatars.githubusercontent.com/u/274876645?s=920&amp;v=4 920w" sizes="(min-width:860px) 220px, 200px" alt="Daniel Taylor" width="460" height="460" id="avatar-img">
           <div class="mono" aria-hidden="true">DT</div>
@@ -757,7 +883,7 @@
         <span class="orb o2" aria-hidden="true">SQL</span>
         <span class="orb o3" aria-hidden="true">Power BI</span>
       </div>
-      <div>
+      <div class="hero-copy">
         <p class="eyebrow rise rise-1">Lagos, Nigeria · Portfolio</p>
         <h1 class="rise rise-2">I build data pipelines and reporting that leaders can <em>actually trust</em>.</h1>
         <p class="title rise rise-3">BI &amp; Analytics Engineer</p>
@@ -776,6 +902,16 @@
           <div><b>4+</b><span>Years in data &amp; analytics</span></div>
           <div><b data-stat="cases">02</b><span>Published case studies</span></div>
           <div><b>60%+</b><span>Faster reporting turnaround</span></div>
+        </div>
+        <div class="stationstrip" id="stationstrip" role="group" aria-label="Jump to a section">
+          <button type="button" data-go="work"><span class="n">01</span>Case studies</button>
+          <button type="button" data-go="how"><span class="n">02</span>How I work</button>
+          <button type="button" data-go="toolkit"><span class="n">03</span>Toolkit</button>
+          <button type="button" data-go="practice"><span class="n">04</span>Practice</button>
+          <button type="button" data-go="connect"><span class="n">05</span>CV & contact</button>
+          <button type="button" data-go="case-digital"><span class="n">06</span>Digital revenue</button>
+          <button type="button" data-go="case-hr"><span class="n">07</span>Workforce</button>
+          <button type="button" data-go="case-hrsys"><span class="n">08</span>HR systems</button>
         </div>
       </div>
     </div>
@@ -1835,7 +1971,48 @@
       var id = (a.getAttribute('href') || '').replace(/^#/, '');
       if(id && seen[id]) a.classList.add('seen');
     });
+    paintScene();
   }
+
+  // the hero scene and the mobile strip read the same state as the HUD
+  function nextUnseen(){
+    for(var i = 0; i < ROOMS.length; i++){ if(!seen[ROOMS[i].id]) return ROOMS[i].id; }
+    return null;
+  }
+  function paintScene(){
+    var next = nextUnseen();
+    document.querySelectorAll('.station, #stationstrip button').forEach(function(b){
+      var id = b.getAttribute('data-go');
+      b.classList.toggle('seen', !!seen[id]);
+      if(b.classList.contains('station')) b.classList.toggle('next', id === next);
+    });
+    document.querySelectorAll('.scene .wires line').forEach(function(l){
+      l.classList.toggle('lit', !!seen[l.getAttribute('data-wire')]);
+    });
+  }
+  document.addEventListener('click', function(ev){
+    var b = ev.target.closest ? ev.target.closest('[data-go]') : null;
+    if(!b) return;
+    var id = b.getAttribute('data-go');
+    if(id) location.hash = '#' + id;
+  });
+
+  // gentle parallax — mouse only, and never when motion is reduced
+  (function(){
+    var scene = document.getElementById('scene');
+    if(!scene || reduce) return;
+    if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+    var hero = document.getElementById('top');
+    if(!hero) return;
+    hero.addEventListener('pointermove', function(ev){
+      var r = hero.getBoundingClientRect();
+      scene.style.setProperty('--px', (((ev.clientX - r.left) / r.width) - 0.5).toFixed(3));
+      scene.style.setProperty('--py', (((ev.clientY - r.top) / r.height) - 0.5).toFixed(3));
+    });
+    hero.addEventListener('pointerleave', function(){
+      scene.style.setProperty('--px', 0); scene.style.setProperty('--py', 0);
+    });
+  })();
 
   function visit(id){
     if(!id || seen[id]) return;
